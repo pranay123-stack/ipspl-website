@@ -9,8 +9,20 @@ import { SectionCTA } from "@/components/ui/SectionCTA";
 
 /**
  * Engineering process timeline.
+ *
  * Positions IPS-PL as an engineering organisation: the sequence from process
  * data to delivered, documented system — not a product list.
+ *
+ * The five steps carry a headline each and nothing more. They used to carry
+ * their four-item activity lists too, which put 5 paragraphs and 20 bullets on
+ * screen at once, all at the same 15px — no hierarchy, and 32 characters to a
+ * line in a 238px column where comfortable reading starts around 45. It read
+ * as one flat grey texture.
+ *
+ * Every one of those bullets is already on /engineering, in full, which is
+ * where a reader who wants the activity list is going anyway — the "Our
+ * process" link at the top of this section takes them there. A homepage
+ * section earns attention by being scannable, not exhaustive.
  */
 export function Capabilities() {
   return (
@@ -30,42 +42,45 @@ export function Capabilities() {
 
         {/* Horizontal timeline */}
         <div className="relative mt-16">
-          <div
-            aria-hidden="true"
-            className="absolute left-0 right-0 top-[13px] hidden h-px bg-ink-900/12 lg:block"
-          />
           <RevealGroup
             /* Subgrid: every cell inherits the row track heights from this
                grid, so the divider rule and bullet list land on the same
                baseline across the row regardless of description length.
                flex-1 only bottom-aligned them, which is not the same thing. */
-            className="grid gap-10 sm:grid-cols-2 nav:grid-cols-5 nav:grid-rows-[auto_auto_auto_auto] nav:gap-6"
+            className="grid gap-10 sm:grid-cols-2 nav:grid-cols-5 nav:grid-rows-[auto_auto_auto] nav:gap-x-8 nav:gap-y-0"
             stagger={0.09}
           >
-            {engineeringProcess.map((step) => (
+            {engineeringProcess.map((step, i) => (
               <RevealItem
                 key={step.index}
-                className="relative nav:grid nav:grid-rows-subgrid nav:row-span-4"
+                className="relative nav:grid nav:grid-rows-subgrid nav:row-span-3"
               >
-                <div>
-                  <span className="mb-6 hidden h-[27px] w-[27px] border border-white/18 bg-surface-raised nav:block">
-                    <span className="ml-[9px] mt-[9px] block h-[7px] w-[7px] bg-accent" />
-                  </span>
-                  <p className="tech-label text-steel-300">{step.index}</p>
+                {/* Each step draws the connector to the next one, and the last
+                    draws none — so the timeline ends on "Deliver" instead of
+                    trailing a column's width past it, which is what a single
+                    full-width rule did. Self-correcting if a step is added. */}
+                {i < engineeringProcess.length - 1 && (
+                  <span
+                    aria-hidden="true"
+                    className="absolute left-0 right-[-2rem] top-[5px] hidden h-px bg-white/12 nav:block"
+                  />
+                )}
+
+                {/* The node sits on the rule; the number beneath it does the
+                    sequencing, so the two are not saying the same thing twice. */}
+                <div className="flex items-center gap-3 nav:block">
+                  <span
+                    aria-hidden="true"
+                    className="relative z-1 block h-2.5 w-2.5 shrink-0 bg-accent nav:mb-7"
+                  />
+                  <p className="tech-label-xs text-steel-300">{step.index}</p>
                 </div>
 
-                <h3 className="text-heading-md text-white">{step.title}</h3>
+                <h3 className="mt-4 text-heading-md text-white nav:mt-0">{step.title}</h3>
 
-                <p className="text-body-sm text-steel-300">{step.description}</p>
-
-                <ul className="space-y-2.5 border-t border-white/10 pt-5">
-                  {step.detail.map((detail) => (
-                    <li key={detail} className="flex gap-2.5 text-caption text-steel-300">
-                      <span aria-hidden="true" className="mt-[7px] h-px w-2.5 shrink-0 bg-accent-bright" />
-                      <span>{detail}</span>
-                    </li>
-                  ))}
-                </ul>
+                <p className="mt-3.5 max-w-[34ch] text-body-sm leading-[1.7] text-steel-300">
+                  {step.description}
+                </p>
               </RevealItem>
             ))}
           </RevealGroup>
