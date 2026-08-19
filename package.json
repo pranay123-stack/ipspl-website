@@ -13,7 +13,10 @@
     "test:e2e": "playwright test",
     "docs:photography": "node scripts/photography-brief.mjs",
     "docs:gaps": "node scripts/content-gaps.mjs",
-    "check:seo": "node scripts/check-seo.mjs"
+    "check:seo": "node scripts/check-seo.mjs",
+    "lh": "node scripts/lighthouse.mjs",
+    "lh:assert": "node scripts/lighthouse-assert.mjs",
+    "lh:ci": "node scripts/lighthouse.mjs --out .lighthouse/ci --label ci && node scripts/lighthouse-assert.mjs --in .lighthouse/ci"
   },
   "dependencies": {
     "@upstash/ratelimit": "^2.0.8",
@@ -34,7 +37,9 @@
     "@types/react-dom": "^19",
     "eslint": "^9",
     "eslint-config-next": "16.3.1",
+    "lighthouse": "^12.8.2",
     "tailwindcss": "^4",
-    "typescript": "^5"
+    "typescript": "^5",
+    "wait-on": "^8.0.1"
   }
 }

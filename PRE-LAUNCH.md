@@ -172,18 +172,32 @@ Then, against the production build:
 - [ ] **Watch `[csp]` log entries for a week**, then set `CSP_ENFORCE=1`.
 - [ ] **Trigger a delivery failure deliberately** (revoke the Resend key for one
       submission) and confirm the alert arrives at `ALERT_WEBHOOK_URL`.
-- [ ] **Lighthouse mobile** on production. Last measured: `/` **91**, `/products`
-      **92**, `/quote` **85**. Accessibility, best-practices and SEO are **100**
-      across all three.
+- [ ] **Lighthouse mobile** on production, on a machine that is not busy —
+      see [docs/performance.md](docs/performance.md) for why that caveat is not
+      pedantry. `npm run lh -- --port 3300 --select best` then
+      `npm run lh:assert`. Budgets fail the CI job on regression.
 
 ---
 
 ## Known limitations
 
-**`/quote` Lighthouse Performance is 85, against a ≥90 target.** It is the heaviest
-client page — the two-step form, in-browser validation and the file input, 242 KB JS
-of which 77 KB is unused. Fixable by validating only the current step and importing
-the schema lazily. Not done; flagged rather than hidden.
+**The hero photograph is upscaled on every retina phone.** `hero.jpg` is
+1,400×1,050 and every source image caps at 1,400 px on its long edge. The
+optimiser does not upscale — a `w=2560` request returns 1,400 px — so at 2× DPR
+the browser stretches it roughly 1.6×. The `sizes` attribute is now correct;
+the remaining half is a content task. See
+[docs/photography-brief.md](docs/photography-brief.md) for per-slot delivery
+sizes. **This is the largest visual-quality gap left in the build.**
+
+**262 KB of JavaScript ships on every route.** That is the floor set by the App
+Router plus the client components in the shell — header, mega menu, reveal
+system, sticky bar, footer nav. Worth auditing which of those genuinely need to
+be client components before adding more.
+
+**`/quote` is no longer the outlier it was.** It measured 85 at the end of the
+five-phase brief; it now measures in line with the rest of the site. The
+plausible cause is `z.config({ jitless: true })` from Phase 3, but this has not
+been isolated and is recorded as an observation, not a claim.
 
 **The mobile quote CTA is a shortened label, not a separate control.** Below
 640px the header button reads "Quote" rather than "Request Quote" — the logo and

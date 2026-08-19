@@ -9,14 +9,32 @@ import { Reveal } from "@/components/ui/Reveal";
 import { cn } from "@/lib/utils";
 import { SectionCTA } from "@/components/ui/SectionCTA";
 
-/** Land cells as x/y percentages, derived once at module load. */
-const DOTS: { x: number; y: number }[] = WORLD_MASK.flatMap((row, r) =>
-  row.split("").flatMap((cell, c) =>
-    cell === "#"
-      ? [{ x: (c / (MASK_COLS - 1)) * 100, y: (r / (MASK_ROWS - 1)) * 100 }]
-      : [],
-  ),
-);
+const DOT_RADIUS = 0.28;
+
+/**
+ * The land mask as a single SVG path, built once at module load.
+ *
+ * This used to be one <circle> per land cell — about 2,200 elements, which
+ * was 69% of every DOM node on the homepage, for a decorative map. Each dot
+ * is now a two-arc subpath in one `d` string: identical rendering, one node,
+ * and the browser has one element to style, lay out and paint instead of
+ * thousands.
+ *
+ * Coordinates are rounded to two decimals; at a 100-unit viewBox that is well
+ * below a device pixel and it keeps the path string compact in the HTML.
+ */
+const LAND_PATH: string = WORLD_MASK.map((row, r) => {
+  const y = ((r / (MASK_ROWS - 1)) * 100).toFixed(2);
+  let d = "";
+  for (let c = 0; c < row.length; c++) {
+    if (row[c] !== "#") continue;
+    const x = (c / (MASK_COLS - 1)) * 100;
+    // Two half-arcs make a full circle; `a` is relative, so each subpath is
+    // self-contained and order does not matter.
+    d += `M${(x - DOT_RADIUS).toFixed(2)} ${y}a${DOT_RADIUS} ${DOT_RADIUS} 0 1 0 ${DOT_RADIUS * 2} 0a${DOT_RADIUS} ${DOT_RADIUS} 0 1 0 ${-DOT_RADIUS * 2} 0`;
+  }
+  return d;
+}).join("");
 
 /**
  * Global engineering network.
@@ -68,16 +86,7 @@ export function GlobalPresence() {
               className="absolute inset-0 h-full w-full"
               aria-hidden="true"
             >
-              {DOTS.map((dot, i) => (
-                <circle
-                  key={i}
-                  cx={dot.x}
-                  cy={dot.y}
-                  r={0.28}
-                  className="fill-white/22"
-                  vectorEffect="non-scaling-stroke"
-                />
-              ))}
+              <path d={LAND_PATH} className="fill-white/22" />
             </svg>
 
             {/* Location markers — presentational. The list below is the

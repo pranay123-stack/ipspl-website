@@ -7,6 +7,17 @@ const nextConfig: NextConfig = {
     // so there is no third-party image host to preconnect to.
     formats: ["image/avif", "image/webp"],
     deviceSizes: [390, 640, 768, 1024, 1280, 1536, 1920, 2560],
+    /*
+     * One year. Optimised images were returning max-age=14400 — four hours —
+     * so every returning visitor refetched every photograph on the fifth hour
+     * of a site whose imagery changes a few times a year.
+     *
+     * Safe because replacing a photograph changes its URL: stock lives under
+     * /images/placeholder/<key>.jpg and real photography goes to
+     * /images/<key>.jpg, so the handover step that swaps an image also busts
+     * its cache. If that convention is ever abandoned, this must come down.
+     */
+    minimumCacheTTL: 31_536_000,
   },
   poweredByHeader: false,
 

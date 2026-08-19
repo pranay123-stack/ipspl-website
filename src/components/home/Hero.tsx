@@ -39,7 +39,23 @@ export function Hero() {
             priority
             loading="eager"
             fetchPriority="high"
-            sizes="(max-width: 768px) 260vw, (max-width: 1280px) 170vw, 110vw"
+            /*
+             * The hero fills a 112svh-tall, full-width box with object-cover,
+             * so the drawn width is not the viewport width — it is
+             * max(100vw, containerHeight x 4/3). On a tall phone that is
+             * genuinely about 3x the viewport width, which is why these
+             * values exceed 100vw; describing it as 100vw would fetch a
+             * candidate a third of the size actually painted.
+             *
+             * Above roughly a 4:3 viewport the cover crop becomes
+             * width-driven and the drawn width is exactly 100vw — the
+             * previous 110vw asked for 10% more pixels than are ever painted.
+             *
+             * Measured, not guessed: at 390x780 the box is 874px tall and the
+             * image paints 1165px wide (299vw); at 768x1024 it paints 1529px
+             * (199vw); at 1280x800 and above, 100vw.
+             */
+            sizes="(max-width: 480px) 300vw, (max-width: 768px) 200vw, (max-width: 1024px) 150vw, 100vw"
             className="hero-drift object-cover object-center"
             placeholder="blur"
             blurDataURL={IMAGE_BLUR}

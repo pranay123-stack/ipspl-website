@@ -1,0 +1,45 @@
+name: Performance budgets
+
+# Lighthouse against a production build. Everything in the original audit was
+# measured against the dev server, where the devtools chunk and unminified
+# bundles make every number meaningless — so this deliberately runs `next
+# start`, never `next dev`.
+on:
+  pull_request:
+  push:
+    branches: [main]
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+
+      - run: npm ci
+      - run: npm run build
+
+      - name: Start the production server
+        run: |
+          npx next start -p 3300 &
+          npx wait-on http://localhost:3300 --timeout 60000
+
+      # Best of three: a shared CI runner is contended, and contention can
+      # only ever make a Lighthouse run worse. Taking the best of N is the
+      # closest available estimate of the unloaded result, and it is what
+      # stops this job failing on noise rather than on regressions.
+      - name: Measure
+        run: npm run lh -- --port 3300 --out .lighthouse/ci --label "CI ${{ github.sha }}" --runs 3 --select best
+
+      - name: Assert budgets
+        run: npm run lh:assert -- --in .lighthouse/ci
+
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: lighthouse-reports
+          path: .lighthouse/ci
+          retention-days: 14

@@ -52,6 +52,11 @@ The build refuses to ship stock once you flip the guard (see PRE-LAUNCH.md).
 
 ### Specification
 
+Per-slot crops and delivery sizes are generated from the layout itself in
+[docs/photography-brief.md](docs/photography-brief.md) — use that in preference
+to the summary here. Full-bleed slots need **4000px** originals; the current
+stock caps at 1400px and is already upscaled on a retina phone.
+
 - Landscape **3:2 or 16:9**, minimum **2000px** on the long edge
 - Well-lit, in-focus, no motion blur; a phone camera in good light is fine
 - No identifiable faces without written consent
