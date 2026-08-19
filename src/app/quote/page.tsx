@@ -7,6 +7,7 @@ import { Section } from "@/components/layout/Section";
 import { PageHero } from "@/components/layout/PageHero";
 import { QuoteForm } from "@/components/forms/QuoteForm";
 import { BookingSlot } from "@/components/ui/BookingSlot";
+import { LocalHours } from "@/components/contact/LocalHours";
 import { Reveal } from "@/components/ui/Reveal";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { breadcrumbSchema, jsonLdGraph } from "@/lib/schema";
@@ -81,14 +82,10 @@ export default function QuotePage() {
                     </li>
                     <li className="flex gap-3.5">
                       <Clock aria-hidden="true" className="mt-0.5 h-4 w-4 shrink-0 text-accent-bright" />
-                      <div className="text-body-sm text-steel-300">
-                        {company.contact.hours.map((slot) => (
-                          <p key={slot.days}>
-                            <span className="block text-white">{slot.days}</span>
-                            {slot.time}
-                          </p>
-                        ))}
-                      </div>
+                      <LocalHours
+                        hours={company.contact.hours}
+                        className="space-y-2 text-body-sm text-steel-300"
+                      />
                     </li>
                   </ul>
                 </div>

@@ -186,6 +186,18 @@ Watch `booking_click` against `quote_submitted` in Plausible. If bookings rise
 while quote submissions fall, the call is cannibalising the better lead and the
 copy needs to push harder toward the form.
 
+> **Why this one matters more than it looks.** The site says "a global
+> engineering network", "regional representation across Asia and North
+> America" and "supporting enquiries in local time zones". Four of the five
+> countries currently have no contact detail at all — a buyer in Canada reads
+> the claim, looks for a Canadian contact, and finds a +91 landline open
+> through their night. A claim a procurement manager can disprove in ten
+> seconds is worse than a smaller claim that holds.
+>
+> If the regional details genuinely do not exist, say so instead: *"Supplying
+> five countries from our Vadodara works"* is true, still impressive, and
+> survives inspection.
+
 ## 3. LinkedIn URL — one field, outsized effect
 
 **File:** `src/data/company.ts` → `contact.linkedin`

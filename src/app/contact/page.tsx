@@ -12,6 +12,7 @@ import { CrossLinks } from "@/components/seo/CrossLinks";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { breadcrumbSchema, jsonLdGraph } from "@/lib/schema";
 import { LocationMap } from "@/components/contact/LocationMap";
+import { LocalHours } from "@/components/contact/LocalHours";
 import { BookingLink } from "@/components/ui/BookingLink";
 
 export const metadata: Metadata = pageMetadata({
@@ -89,13 +90,10 @@ export default function ContactPage() {
                 </li>
                 <li className="flex gap-4">
                   <Clock aria-hidden="true" className="mt-1 h-5 w-5 shrink-0 text-accent-bright" />
-                  <div className="text-body-lg text-steel-300">
-                    {company.contact.hours.map((slot) => (
-                      <p key={slot.days}>
-                        <span className="text-white">{slot.days}</span> · {slot.time}
-                      </p>
-                    ))}
-                  </div>
+                  <LocalHours
+                    hours={company.contact.hours}
+                    className="space-y-2 text-body-lg text-steel-300"
+                  />
                 </li>
               </ul>
 
