@@ -324,6 +324,27 @@ Budgets are enforced by `npm run lh:assert` and by
 4. Add the environment variables (below) **before** the first deploy.
 5. Deploy.
 
+### Adding the variables in bulk
+
+Two ways that beat typing them one at a time.
+
+**Paste into the dashboard.** Vercel's environment-variable panel accepts a
+whole `.env`-style block pasted into the key field — it splits it into
+individual variables for you.
+
+**Or use the script**, which is repeatable and survives value changes:
+
+```bash
+cp .env.example .env.production.local   # gitignored; fill in the real values
+vercel link                             # once, to connect this repo to the project
+./scripts/vercel-env.sh .env.production.local production
+vercel --prod
+```
+
+It removes an existing value before adding, so re-running after a change
+updates rather than failing halfway. Values are passed on stdin, so they never
+land in your shell history.
+
 ### Minimum variables for a working deployment
 
 ```
