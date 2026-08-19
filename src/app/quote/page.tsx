@@ -6,6 +6,7 @@ import { Container } from "@/components/layout/Container";
 import { Section } from "@/components/layout/Section";
 import { PageHero } from "@/components/layout/PageHero";
 import { QuoteForm } from "@/components/forms/QuoteForm";
+import { BookingSlot } from "@/components/ui/BookingSlot";
 import { Reveal } from "@/components/ui/Reveal";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { breadcrumbSchema, jsonLdGraph } from "@/lib/schema";
@@ -41,6 +42,12 @@ export default function QuotePage() {
           <div className="grid gap-16 md:grid-cols-[1fr_280px] lg:gap-24">
             <Reveal>
               <QuoteForm />
+
+              {/* Below the form, never beside it: a booked call carries none
+                  of the process data a quotation needs, so it is the fallback
+                  for someone who will not send drawings yet — not an
+                  alternative to sending them. */}
+              <BookingSlot />
             </Reveal>
 
             {/* Sidebar */}

@@ -43,6 +43,23 @@ export const company = {
      */
     // TODO(content): Google Business Profile URL for the Vadodara works
     googleBusinessProfile: null as string | null,
+    /**
+     * Scheduling link — Calendly, Cal.com, or anything that opens in a browser.
+     *
+     * Deliberately a link, never an embed. An embedded widget would run a third
+     * party's script inside our pages, which makes their cookies ours: the
+     * cookie policy at /legal/cookies states plainly that this site sets none,
+     * and EU/UK visitors would then need a consent banner on every page. A link
+     * hands the visitor to the scheduler's own domain, where the scheduler's
+     * policy applies. Same booking, none of that.
+     *
+     * Absent until IPS-PL supplies one — nothing renders, exactly as with
+     * `linkedin` and `googleBusinessProfile`. Do not add it until someone
+     * owns the calendar: a booking page with no free slots, or a missed call,
+     * damages credibility more than not offering one.
+     */
+    // TODO(content): scheduling URL, once someone owns the calendar
+    bookingUrl: null as string | null,
     // TODO(content): any further profiles (YouTube, IndiaMART, trade bodies)
     social: [] as { label: string; url: string }[],
   },

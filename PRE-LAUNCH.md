@@ -247,7 +247,7 @@ event. If you want them separated in reporting, they need their own `kind`.
 
 Plausible fires: `quote_start`, `quote_step_1_complete`, `quote_step_2_complete`,
 `quote_submitted`, `contact_submitted`, `datasheet_request`,
-`datasheet_download`, `phone_click`, `email_click`.
+`datasheet_download`, `booking_click`, `phone_click`, `email_click`.
 
 `phone_click` and `email_click` were previously declared but never fired from
 anywhere — the two highest-intent actions short of the form, unmeasured. They

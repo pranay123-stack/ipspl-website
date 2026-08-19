@@ -162,6 +162,30 @@ Click both once before launch:
 
 If either is wrong, correct the `url` and set `verified: true`.
 
+## 2e. Booking link — optional, and conditional
+
+**File:** `src/data/company.ts` → `contact.bookingUrl`
+
+A Calendly (or Cal.com) URL turns on "Talk to an engineer" beneath the quote
+form and beside the contact details. Until it is set, nothing renders.
+
+**It is a link, never an embed, and that is deliberate.** An embedded scheduler
+runs a third party's script inside our pages, which makes their cookies ours —
+[/legal/cookies](src/data/legal.ts) states that this site sets none, and EU/UK
+visitors would then need a consent banner on every page. A link hands the
+visitor to the scheduler's own domain, where the scheduler's policy applies.
+Same booking, none of that. Four tests enforce it.
+
+> **Do not set this until someone owns the calendar.** A booking page with no
+> free slots for three weeks, or a missed call, does more damage than not
+> offering one — this is a credibility page. Confirm the scheduler detects the
+> visitor's time zone too: enquiries come from five countries and a calendar
+> offering IST slots to a buyer in Canada is friction, not convenience.
+
+Watch `booking_click` against `quote_submitted` in Plausible. If bookings rise
+while quote submissions fall, the call is cannibalising the better lead and the
+copy needs to push harder toward the form.
+
 ## 3. LinkedIn URL — one field, outsized effect
 
 **File:** `src/data/company.ts` → `contact.linkedin`

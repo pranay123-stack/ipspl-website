@@ -16,7 +16,7 @@ question shows as an absent row, never as an invented one.
 
 | Gap | Count | Blocks launch? |
 |---|---|---|
-| `TODO(content)` markers | 53 | Partly — see per-file notes |
+| `TODO(content)` markers | 54 | Partly — see per-file notes |
 | Placeholder photographs | 42 of 42 | **Yes** — see [photography-brief.md](./photography-brief.md) |
 | Stub articles | 6 of 6 | No — they publish, but thinly |
 | Specification rows with a stated source | 0 of 83 | **Yes** — every figure needs engineering sign-off |
@@ -24,7 +24,7 @@ question shows as an absent row, never as an invented one.
 ## Checking progress
 
 ```bash
-grep -rn "TODO(content)" src/     # 53 markers
+grep -rn "TODO(content)" src/     # 54 markers
 npm run check:images              # 42 placeholder images
 npm run docs:gaps                 # regenerate this file
 ```
@@ -75,22 +75,23 @@ Reference installations. `outcome` is the field that converts — a measurable r
 | `pressure` | confirm | [src/data/projects.ts:118](src/data/projects.ts#L118) |
 | `—` | measurable outcome, confirmed with the customer | [src/data/projects.ts:121](src/data/projects.ts#L121) |
 
-### `src/data/company.ts` — 10 markers
+### `src/data/company.ts` — 11 markers
 
 Regional network. Four countries are listed with no way to contact any of them, which is what most undermines the 'global engineering network' claim.
 
 | Field | Needed | Location |
 |---|---|---|
 | `—` | Google Business Profile URL for the Vadodara works | [src/data/company.ts:44](src/data/company.ts#L44) |
-| `—` | any further profiles (YouTube, IndiaMART, trade bodies) | [src/data/company.ts:46](src/data/company.ts#L46) |
-| `—` | year IPS-PL was founded | [src/data/company.ts:58](src/data/company.ts#L58) |
-| `—` | employee count, or a band such as | [src/data/company.ts:60](src/data/company.ts#L60) |
-| `—` | GSTIN / VAT registration number | [src/data/company.ts:62](src/data/company.ts#L62) |
-| `—` | exact latitude/longitude of the Vadodara works | [src/data/company.ts:64](src/data/company.ts#L64) |
-| `—` | city, address, direct line and regional email | [src/data/company.ts:132](src/data/company.ts#L132) |
-| `—` | city, address, direct line and regional email | [src/data/company.ts:139](src/data/company.ts#L139) |
-| `—` | address, direct line and regional email | [src/data/company.ts:147](src/data/company.ts#L147) |
-| `—` | city, address, direct line and regional email | [src/data/company.ts:154](src/data/company.ts#L154) |
+| `—` | scheduling URL, once someone owns the calendar | [src/data/company.ts:61](src/data/company.ts#L61) |
+| `—` | any further profiles (YouTube, IndiaMART, trade bodies) | [src/data/company.ts:63](src/data/company.ts#L63) |
+| `—` | year IPS-PL was founded | [src/data/company.ts:75](src/data/company.ts#L75) |
+| `—` | employee count, or a band such as | [src/data/company.ts:77](src/data/company.ts#L77) |
+| `—` | GSTIN / VAT registration number | [src/data/company.ts:79](src/data/company.ts#L79) |
+| `—` | exact latitude/longitude of the Vadodara works | [src/data/company.ts:81](src/data/company.ts#L81) |
+| `—` | city, address, direct line and regional email | [src/data/company.ts:149](src/data/company.ts#L149) |
+| `—` | city, address, direct line and regional email | [src/data/company.ts:156](src/data/company.ts#L156) |
+| `—` | address, direct line and regional email | [src/data/company.ts:164](src/data/company.ts#L164) |
+| `—` | city, address, direct line and regional email | [src/data/company.ts:171](src/data/company.ts#L171) |
 
 ### `src/data/insights.ts` — 7 markers
 

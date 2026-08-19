@@ -30,6 +30,7 @@ export type AnalyticsEvent =
   | "contact_submitted"
   | "datasheet_request"
   | "datasheet_download"
+  | "booking_click"
   | "phone_click"
   | "email_click";
 

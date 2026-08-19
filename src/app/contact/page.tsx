@@ -12,6 +12,7 @@ import { CrossLinks } from "@/components/seo/CrossLinks";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { breadcrumbSchema, jsonLdGraph } from "@/lib/schema";
 import { LocationMap } from "@/components/contact/LocationMap";
+import { BookingLink } from "@/components/ui/BookingLink";
 
 export const metadata: Metadata = pageMetadata({
   title: "Contact Our Engineering Team | IPS-PL Vadodara, India",
@@ -97,6 +98,12 @@ export default function ContactPage() {
                   </div>
                 </li>
               </ul>
+
+              {/* Sits after the published contact routes, not before them: a
+                  buyer who wants to phone should reach the number first. */}
+              <div className="mt-8 border-t border-white/10 pt-7 empty:hidden">
+                <BookingLink label="Book a call with an engineer" context="contact-page" />
+              </div>
             </Reveal>
 
             {/* Light path: a short message, not the 14-field RFQ. */}
