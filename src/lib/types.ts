@@ -168,6 +168,8 @@ export interface CaseStudy {
   solution: string;
   result: string;
   productSlugs: string[];
+  /** Search metadata. Title 50-60 chars, description 140-158 — enforced by `npm run check:seo`. */
+  seo: { title: string; description: string };
 }
 
 /**
@@ -187,6 +189,8 @@ export type ArticleBlock =
   | { type: "figure"; imageKey: string; caption: string };
 
 export interface Insight {
+  /** Search metadata. Title 50-60 chars, description 140-158 — enforced by `npm run check:seo`. */
+  seo?: { title: string; description: string };
   slug: string;
   category: "Engineering" | "Materials" | "Industry" | "Applications" | "Company News";
   title: string;
@@ -199,6 +203,19 @@ export interface Insight {
   tags?: string[];
   imageKey: string;
   author: Placeholder<string>;
+  /**
+   * Named author. Article.author carries the Organization until this is set;
+   * a named engineer with a role and credentials is a far stronger signal for
+   * technical content, and it needs that person's consent, so it is a slot
+   * rather than a name.
+   */
+  authorPerson?: {
+    name: string;
+    /** e.g. "Head of Engineering" */
+    jobTitle: string;
+    /** e.g. "B.E. Mechanical, 18 years in lined piping" */
+    credentials?: string;
+  };
   /** Structured body. Replace with the client's editorial content. */
   blocks: ArticleBlock[];
   /**

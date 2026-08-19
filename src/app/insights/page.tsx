@@ -9,12 +9,12 @@ import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { InsightCard } from "@/components/insights/InsightCard";
 import { CTABand } from "@/components/ui/CTABand";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { breadcrumbSchema, jsonLdGraph } from "@/lib/schema";
+import { breadcrumbSchema, insightListSchema, jsonLdGraph } from "@/lib/schema";
 
 export const metadata: Metadata = pageMetadata({
   title: "PTFE Lining & Material Selection Insights | IPS-PL",
   description:
-    "Technical notes on fluoropolymer material selection, lined system failure modes, expansion provision and specification practice.",
+    "Technical notes on fluoropolymer material selection, lined system failure modes, expansion provision and specification practice, from our engineering team.",
   path: "/insights",
 });
 
@@ -23,7 +23,10 @@ export default function InsightsPage() {
 
   return (
     <>
-      <JsonLd json={jsonLdGraph(breadcrumbSchema([{ label: "Home", href: "/" }, { label: "Insights" }]))} />
+      <JsonLd json={jsonLdGraph(
+          insightListSchema(insights),
+          breadcrumbSchema([{ label: "Home", href: "/" }, { label: "Insights" }]),
+        )} />
 
       <PageHero
         eyebrow="Insights"

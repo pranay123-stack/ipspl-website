@@ -36,8 +36,33 @@ export const company = {
       { days: "Saturday", time: "09:00 – 14:00 IST" },
     ],
     linkedin: null as string | null,
+    /**
+     * Google Business Profile URL. Drives the map and the "find us" link on
+     * /contact, and joins Organization.sameAs. Absent rather than guessed:
+     * a wrong profile URL sends buyers to another company.
+     */
+    // TODO(content): Google Business Profile URL for the Vadodara works
+    googleBusinessProfile: null as string | null,
     // TODO(content): any further profiles (YouTube, IndiaMART, trade bodies)
     social: [] as { label: string; url: string }[],
+  },
+
+  /**
+   * Registry facts for LocalBusiness / Organization structured data.
+   *
+   * Each is omitted from the graph until supplied. None is guessable: a wrong
+   * founding date or GSTIN is worse than an absent one, and `geo` in
+   * particular would place a pin on somebody else's building.
+   */
+  registry: {
+    // TODO(content): year IPS-PL was founded
+    foundingDate: null as string | null,
+    // TODO(content): employee count, or a band such as "50-100"
+    numberOfEmployees: null as string | null,
+    // TODO(content): GSTIN / VAT registration number
+    taxId: null as string | null,
+    // TODO(content): exact latitude/longitude of the Vadodara works
+    geo: null as { latitude: number; longitude: number } | null,
   },
 
   certifications: [

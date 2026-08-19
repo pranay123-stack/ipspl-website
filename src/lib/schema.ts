@@ -29,15 +29,61 @@ const abs = (path: string) => (path.startsWith("http") ? path : `${SITE_URL}${pa
 function sameAs(): string[] {
   return [
     company.contact.linkedin,
+    company.contact.googleBusinessProfile,
     ...company.contact.social.map((s) => s.url),
   ].filter((url): url is string => typeof url === "string" && url.startsWith("http"));
 }
 
+/**
+ * Published opening hours as schema.org expects them.
+ *
+ * The hours were displayed on /contact and nowhere in the markup, so a search
+ * engine had no way to know the business is open. Parsed from the same strings
+ * the page renders, which is the only way the two can stay in step.
+ */
+const DAY_NAMES: Record<string, string> = {
+  monday: "Monday", tuesday: "Tuesday", wednesday: "Wednesday",
+  thursday: "Thursday", friday: "Friday", saturday: "Saturday", sunday: "Sunday",
+};
+const DAY_ORDER = Object.values(DAY_NAMES);
+
+function openingHours(): Json[] {
+  return company.contact.hours
+    .map(({ days, time }): Json | null => {
+      // "Monday – Friday" or "Saturday"; en dash and hyphen both appear.
+      const parts = days.split(/\s*[–-]\s*/).map((d) => DAY_NAMES[d.trim().toLowerCase()]);
+      if (parts.some((d) => !d)) return null;
+      const from = DAY_ORDER.indexOf(parts[0]!);
+      const to = DAY_ORDER.indexOf(parts[parts.length - 1]!);
+      const dayOfWeek = DAY_ORDER.slice(from, to + 1);
+
+      // "08:00 – 18:00 IST"
+      const clock = time.match(/(\d{2}:\d{2})\s*[–-]\s*(\d{2}:\d{2})/);
+      if (!clock) return null;
+
+      const spec: Json = {
+        "@type": "OpeningHoursSpecification",
+        dayOfWeek,
+        opens: clock[1],
+        closes: clock[2],
+      };
+      return spec;
+    })
+    .filter((entry): entry is Json => entry !== null);
+}
+
 export function organizationSchema(): Json {
   const links = sameAs();
+  const { registry } = company;
+  const hours = openingHours();
 
   return {
-    "@type": "Organization",
+    // LocalBusiness as well as Organization: there is one physical works in
+    // Vadodara with published hours and a phone number, which is exactly what
+    // the narrower type describes. Every property it adds is a fact IPS-PL has
+    // published; the ones it has not — founding date, headcount, GSTIN, the
+    // coordinates of the plant — are omitted rather than approximated.
+    "@type": ["Organization", "LocalBusiness"],
     "@id": ORG_ID,
     name: company.legalName,
     alternateName: company.shortName,
@@ -66,6 +112,20 @@ export function organizationSchema(): Json {
       },
     ],
     areaServed: globalLocations.map((l) => l.country),
+    ...(hours.length ? { openingHoursSpecification: hours } : {}),
+    ...(registry.geo
+      ? { geo: { "@type": "GeoCoordinates", ...registry.geo } }
+      : {}),
+    ...(registry.foundingDate ? { foundingDate: registry.foundingDate } : {}),
+    ...(registry.numberOfEmployees
+      ? {
+          numberOfEmployees: {
+            "@type": "QuantitativeValue",
+            value: registry.numberOfEmployees,
+          },
+        }
+      : {}),
+    ...(registry.taxId ? { taxID: registry.taxId, vatID: registry.taxId } : {}),
     hasCredential: [
       {
         "@type": "EducationalOccupationalCredential",
@@ -128,8 +188,15 @@ export function productSchema(product: Product): Json {
     manufacturer: { "@id": ORG_ID },
     material: product.materials,
     additionalProperty,
-    // No price is published, so this describes availability and the
-    // commercial function rather than an offer amount.
+    // DELIBERATE: no `price` or `priceCurrency`.
+    //
+    // Every item on this site is quoted against process data — bore, duty,
+    // liner grade and geometry all move the number, and there is no list
+    // price to publish. Search Console will report "Missing field price" as a
+    // non-critical warning on these pages; that is the correct trade. Naming a
+    // figure to silence the warning would be a price IPS-PL has not agreed to
+    // honour, and `priceSpecification` below states the position in the terms
+    // schema.org provides for it.
     offers: {
       "@type": "Offer",
       availability: "https://schema.org/InStock",
@@ -159,7 +226,20 @@ export function articleSchema(insight: Insight): Json {
     dateModified: insight.updated ?? insight.date,
     articleSection: insight.category,
     inLanguage: "en",
-    author: { "@type": "Organization", name: insight.author, url: SITE_URL },
+    // A named person outranks an organisation byline for technical content,
+    // but only once that person has agreed to be named — until then the
+    // organisation is the honest author.
+    author: insight.authorPerson
+      ? {
+          "@type": "Person",
+          name: insight.authorPerson.name,
+          jobTitle: insight.authorPerson.jobTitle,
+          ...(insight.authorPerson.credentials
+            ? { description: insight.authorPerson.credentials }
+            : {}),
+          worksFor: { "@id": ORG_ID },
+        }
+      : { "@type": "Organization", name: insight.author, url: SITE_URL },
     publisher: {
       "@id": ORG_ID,
       "@type": "Organization",
@@ -233,6 +313,60 @@ export function caseStudyListSchema(studies: CaseStudy[]): Json {
       position: i + 1,
       name: study.title,
       url: `${SITE_URL}/case-studies/${study.slug}`,
+    })),
+  };
+}
+
+/**
+ * Service schema for an industry page.
+ *
+ * The eight industry pages carried BreadcrumbList and nothing else, which
+ * described their position in the site and not what they are about. Every
+ * field here is drawn from the page's own content — the products it names and
+ * the sector it serves — so the markup cannot claim a service the page does
+ * not describe.
+ */
+export function industryServiceSchema(industry: Industry, products: Product[]): Json {
+  return {
+    "@type": "Service",
+    "@id": `${SITE_URL}/industries/${industry.slug}#service`,
+    name: `PTFE lined systems for ${industry.title.toLowerCase()}`,
+    description: industry.shortDescription,
+    serviceType: "Fluoropolymer lined piping and equipment supply",
+    provider: { "@id": ORG_ID },
+    areaServed: globalLocations.map((l) => l.country),
+    audience: { "@type": "BusinessAudience", name: industry.title },
+    url: `${SITE_URL}/industries/${industry.slug}`,
+    ...(products.length
+      ? {
+          hasOfferCatalog: {
+            "@type": "OfferCatalog",
+            name: `${industry.title} product range`,
+            itemListElement: products.map((product) => ({
+              "@type": "Offer",
+              itemOffered: {
+                "@id": `${SITE_URL}/products/${product.slug}#product`,
+                "@type": "Product",
+                name: product.title,
+              },
+              url: `${SITE_URL}/products/${product.slug}`,
+            })),
+          },
+        }
+      : {}),
+  };
+}
+
+export function insightListSchema(insights: Insight[]): Json {
+  return {
+    "@type": "ItemList",
+    name: "IPS-PL engineering notes",
+    numberOfItems: insights.length,
+    itemListElement: insights.map((insight, i) => ({
+      "@type": "ListItem",
+      position: i + 1,
+      name: insight.title,
+      url: `${SITE_URL}/insights/${insight.slug}`,
     })),
   };
 }

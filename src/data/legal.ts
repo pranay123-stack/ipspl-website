@@ -13,6 +13,21 @@ export interface LegalPage {
   title: string;
   intro: string;
   sections: { heading: string; body: string[] }[];
+  /**
+   * Search metadata. Held to 50-60 / 140-158 by `npm run check:seo`.
+   */
+  seo: { title: string; description: string };
+  /**
+   * True while the text is scaffolding rather than approved policy.
+   *
+   * This drives indexing rather than a hand-maintained noindex: an indexable
+   * privacy policy is a genuine trust signal and several ad platforms require
+   * one, but indexing a page that says "describe the personal data collected"
+   * is worse than not having it indexed at all. Set false when counsel
+   * approves the text and the page indexes itself — it also joins the sitemap
+   * at the same moment, with no second edit to forget.
+   */
+  pending: boolean;
 }
 
 const PENDING_NOTICE =
@@ -22,6 +37,12 @@ export const legalPages: LegalPage[] = [
   {
     slug: "privacy",
     title: "Privacy Policy",
+    pending: true,
+    seo: {
+      title: "Privacy Policy | Innovative Process Solutions IPS-PL",
+      description:
+        "How Innovative Process Solutions handles personal data submitted through enquiry and contact forms, including international transfer to regional offices.",
+    },
     intro: PENDING_NOTICE,
     sections: [
       {
@@ -55,6 +76,12 @@ export const legalPages: LegalPage[] = [
   {
     slug: "terms",
     title: "Terms of Use",
+    pending: true,
+    seo: {
+      title: "Terms of Use | Innovative Process Solutions IPS-PL",
+      description:
+        "Terms governing use of the IPS-PL website, including the status of published specifications and the binding data issued with a formal quotation.",
+    },
     intro: PENDING_NOTICE,
     sections: [
       {
@@ -85,7 +112,16 @@ export const legalPages: LegalPage[] = [
   {
     slug: "cookies",
     title: "Cookie Policy",
-    intro: PENDING_NOTICE,
+    // Approved: this page states verifiable fact about a site that sets no
+    // cookies, rather than scaffolding awaiting legal input.
+    pending: false,
+    seo: {
+      title: "Cookie Policy | This Site Sets No Cookies | IPS-PL",
+      description:
+        "This website sets no cookies of any kind. What that means, how visits are measured without them, and the one thing stored locally in your own browser.",
+    },
+    intro:
+      "This site sets no cookies. The detail below explains what that means, what is measured instead, and the single item stored locally in your browser.",
     sections: [
       {
         heading: "What cookies we use",

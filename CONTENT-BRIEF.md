@@ -114,6 +114,49 @@ better than a wrong one.
 
 ---
 
+## 2b. Google Business Profile — one URL, three effects
+
+**File:** `src/data/company.ts` → `contact.googleBusinessProfile`
+
+A single URL turns on the "Directions" link on /contact, and joins
+`Organization.sameAs` alongside LinkedIn. Combined with
+`NEXT_PUBLIC_GOOGLE_MAPS_EMBED_URL` it also enables the map itself, which loads
+only when a visitor clicks "Show map" so it costs nothing on first paint.
+
+Until it is supplied the panel says so in plain words rather than rendering an
+empty map frame.
+
+## 2c. Registry facts for structured data
+
+**File:** `src/data/company.ts` → `registry`
+
+Four fields, each omitted from the structured-data graph until supplied.
+`/` now declares IPS-PL as both `Organization` and `LocalBusiness`, with the
+published opening hours marked up from the same strings /contact renders.
+
+| Field | Effect once supplied |
+|---|---|
+| `foundingDate` | `foundingDate` — a company trading since a stated year reads differently |
+| `numberOfEmployees` | `numberOfEmployees` — scale signal for procurement |
+| `taxId` | `taxID` / `vatID` — GSTIN, a strong legitimacy signal in Indian B2B |
+| `geo` | `GeoCoordinates` — **do not estimate.** A wrong pin sends visitors to another unit in the estate. |
+
+## 2d. Standards links — confirm once
+
+**File:** `src/data/standards.ts`
+
+Specification tables now link each cited standard to its publishing body. The
+ASME and CEN links were confirmed to load; **astm.org and iso.org block
+automated checks**, so those two URLs could not be verified from the build
+environment and are marked `verified: false`.
+
+Click both once before launch:
+
+- ASTM F1545 → `https://www.astm.org/f1545-21.html`
+- ISO 9001:2015 → `https://www.iso.org/standard/62085.html`
+
+If either is wrong, correct the `url` and set `verified: true`.
+
 ## 3. LinkedIn URL — one field, outsized effect
 
 **File:** `src/data/company.ts` → `contact.linkedin`
@@ -195,8 +238,18 @@ thicknesses.
 
 ## 6. Editorial — optional, valuable
 
-Six articles exist, attributed to "IPS-PL Engineering". Eight further titles were
-proposed, each mapped to a commercial keyword a product page already targets:
+Six articles exist, attributed to "IPS-PL Engineering".
+
+**Name the authors.** `Article.author` is currently the organisation. A named
+engineer with a role and credentials carries far more weight for technical
+content — it is the single strongest lever available on this section. Set
+`authorPerson: { name, jobTitle, credentials }` on an entry in
+`src/data/insights.ts` and it appears in the byline and in the structured data
+together. Obtain the individual's consent first: this publishes their name and
+role.
+
+Eight further titles were proposed, each mapped to a commercial keyword a
+product page already targets:
 
 1. PTFE vs PFA vs FEP: choosing a liner for your duty
 2. How to specify a lined pipe spool: the eight figures we need

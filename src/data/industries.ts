@@ -44,9 +44,9 @@ export const industries: Industry[] = [
     ],
     caseStudySlug: "chemical-acid-transfer",
     seo: {
-      title: "Chemical Processing | Corrosion-Resistant Piping Systems",
+      title: "Chemical Processing | Corrosion-Resistant Lines",
       description:
-        "PTFE lined piping, valves and components for acid, solvent and halogenated service in chemical processing plants.",
+        "PTFE lined piping, valves and components for acid, solvent and halogenated service in chemical processing plants, specified against your full inventory.",
     },
   },
   {
@@ -81,9 +81,9 @@ export const industries: Industry[] = [
     ],
     caseStudySlug: "pharma-api-transfer",
     seo: {
-      title: "Pharmaceutical | High-Purity Fluoropolymer Systems",
+      title: "Pharmaceutical | High-Purity Lined Systems",
       description:
-        "PFA and PTFE lined piping, valves and components for API, intermediates and high-purity pharmaceutical processing.",
+        "PFA and PTFE lined piping, valves and components for API, intermediates and high-purity pharmaceutical processing, with materials evidenced for audit.",
     },
   },
   {
@@ -118,9 +118,9 @@ export const industries: Industry[] = [
     ],
     caseStudySlug: "refinery-effluent",
     seo: {
-      title: "Oil & Gas | Lined Piping for Sour and Produced Water Service",
+      title: "Oil & Gas | Lined Piping for Sour Service",
       description:
-        "PTFE lined piping, valves and hoses for produced water, chemical injection and sour service in oil and gas facilities.",
+        "PTFE lined piping, valves and hoses for produced water, chemical injection and sour service in oil and gas facilities, engineered around the real duty.",
     },
   },
   {
@@ -157,7 +157,7 @@ export const industries: Industry[] = [
     seo: {
       title: "Petrochemical | Lined Systems for Continuous Plant",
       description:
-        "PTFE lined piping systems, fittings and expansion joints for petrochemical plant where availability governs specification.",
+        "PTFE lined piping systems, fittings and expansion joints for petrochemical plant where availability governs specification and a shutdown is the real cost.",
     },
   },
   {
@@ -192,9 +192,9 @@ export const industries: Industry[] = [
     ],
     caseStudySlug: "power-fgd",
     seo: {
-      title: "Power Generation | FGD and Water Treatment Piping",
+      title: "Power Generation | FGD & Water Treatment Piping",
       description:
-        "PTFE lined piping, valves and expansion joints for flue gas desulphurisation, water treatment and effluent duty in power plant.",
+        "PTFE lined piping, valves and expansion joints for flue gas desulphurisation, water treatment and effluent duty in power plant, including chloride service.",
     },
   },
   {
@@ -231,7 +231,7 @@ export const industries: Industry[] = [
     seo: {
       title: "Specialty Chemicals | Multi-Product Lined Systems",
       description:
-        "PTFE lined piping and valves for specialty and fine chemical plant running multiple products through shared equipment.",
+        "PTFE lined piping and valves for specialty and fine chemical plant running multiple products through shared equipment, where carryover is unacceptable.",
     },
   },
   {
@@ -265,9 +265,9 @@ export const industries: Industry[] = [
       { title: "Surface finish", description: "Bore finish is specified to limit adhesion and simplify cleaning." },
     ],
     seo: {
-      title: "Food & Process | Cleanable Fluoropolymer Transfer Systems",
+      title: "Food & Process | Cleanable Transfer Systems",
       description:
-        "PTFE lined piping and components for food, detergent and process utility duty requiring cleanable, inert transfer.",
+        "PTFE lined piping and components for food, detergent and process utility duty requiring cleanable, inert transfer with no metal contact with the product.",
     },
   },
   {
@@ -301,9 +301,9 @@ export const industries: Industry[] = [
       { title: "Access for maintenance", description: "Dosing skids are laid out so components can be isolated and replaced without stopping treatment." },
     ],
     seo: {
-      title: "Water & Industrial Processing | Chemical Dosing Systems",
+      title: "Water & Industrial | Chemical Dosing Systems",
       description:
-        "PTFE lined piping and valves for chemical dosing, effluent neutralisation and industrial water treatment plant.",
+        "PTFE lined piping and valves for chemical dosing, effluent neutralisation and industrial water treatment plant, from a single sub-supplier with records.",
     },
   },
 ];

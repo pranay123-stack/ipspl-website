@@ -23,11 +23,14 @@ export async function generateMetadata({
   if (!page) return { title: "Not found" };
 
   return {
-    title: page.title,
-    description: `${page.title} for Innovative Process Solutions Pvt. Ltd.`,
+    title: { absolute: page.seo.title },
+    description: page.seo.description,
     alternates: alternatesFor(`/legal/${page.slug}`),
-    // Placeholder policies should not be indexed.
-    robots: { index: false, follow: true },
+    // Indexing follows the content, not a hand-set flag: a policy that still
+    // reads "describe the personal data collected" must not be indexed, and
+    // an approved one should be, because it is a real trust signal. Clearing
+    // `pending` does both at once.
+    ...(page.pending ? { robots: { index: false, follow: true } } : {}),
   };
 }
 

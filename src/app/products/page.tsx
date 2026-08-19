@@ -18,9 +18,9 @@ import { products } from "@/data/products";
 import { CTABand } from "@/components/ui/CTABand";
 
 export const metadata: Metadata = pageMetadata({
-  title: "PTFE Lined Pipes, Fittings & Valves | Products | IPS-PL",
+  title: "PTFE Lined Pipes, Fittings & Valves | IPS-PL Products",
   description:
-    "PTFE lined pipes, fittings, valves, bellows, dip pipes and virgin PTFE products engineered to ASTM F1545 for corrosive process service.",
+    "PTFE lined pipes, fittings, valves, bellows, dip pipes and virgin PTFE products engineered to ASTM F1545 for corrosive process service. Compare the range.",
   path: "/products",
 });
 

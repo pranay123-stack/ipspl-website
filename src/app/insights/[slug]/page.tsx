@@ -34,8 +34,8 @@ export async function generateMetadata({
   if (!insight) return { title: "Article not found" };
 
   return {
-    title: insight.title,
-    description: insight.excerpt,
+    title: { absolute: insight.seo?.title ?? insight.title },
+    description: insight.seo?.description ?? insight.excerpt,
     alternates: alternatesFor(`/insights/${insight.slug}`),
     openGraph: {
       type: "article",
@@ -87,7 +87,12 @@ export default async function InsightPage({
           ...(insight.updated
             ? [{ label: "Updated", value: formatDate(insight.updated) }]
             : []),
-          { label: "Author", value: insight.author },
+          {
+            label: "Author",
+            value: insight.authorPerson
+              ? `${insight.authorPerson.name}, ${insight.authorPerson.jobTitle}`
+              : insight.author,
+          },
           { label: "Reading time", value: readingTimeLabel(insight.blocks) },
         ]}
       />

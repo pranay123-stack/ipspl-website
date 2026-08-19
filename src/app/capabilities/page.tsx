@@ -16,9 +16,9 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { breadcrumbSchema, jsonLdGraph } from "@/lib/schema";
 
 export const metadata: Metadata = pageMetadata({
-  title: "PTFE Lining & Precision Machining Capabilities | IPS-PL",
+  title: "PTFE Lining & Precision Machining | IPS-PL Capability",
   description:
-    "In-house fabrication, fluoropolymer lining, CNC machining, inspection and testing under an ISO 9001:2015 quality system.",
+    "In-house fabrication, fluoropolymer lining, CNC machining, inspection and testing under an ISO 9001:2015 quality system at the Vadodara works in Gujarat.",
   path: "/capabilities",
 });
 

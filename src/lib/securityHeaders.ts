@@ -52,6 +52,12 @@ function contentSecurityPolicy(isDev: boolean): string {
   // is an origin allowed.
   const turnstile = Boolean(process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY);
   const cf = turnstile ? " https://challenges.cloudflare.com" : "";
+  // The /contact map is a Google iframe, and only exists when configured.
+  const maps = Boolean(process.env.NEXT_PUBLIC_GOOGLE_MAPS_EMBED_URL);
+  const frameSources = [
+    ...(turnstile ? ["https://challenges.cloudflare.com"] : []),
+    ...(maps ? ["https://www.google.com", "https://maps.google.com"] : []),
+  ];
 
   return [
     "default-src 'self'",
@@ -71,7 +77,7 @@ function contentSecurityPolicy(isDev: boolean): string {
     "base-uri 'self'",
     "form-action 'self'",
     "frame-ancestors 'none'",
-    turnstile ? "frame-src https://challenges.cloudflare.com" : "frame-src 'none'",
+    frameSources.length ? `frame-src ${frameSources.join(" ")}` : "frame-src 'none'",
     "manifest-src 'self'",
     "worker-src 'self' blob:",
     // Browsers ignore this in a report-only policy and log a warning on every

@@ -133,9 +133,9 @@ export const products: Product[] = [
     ],
     related: ["ptfe-lined-fittings", "ptfe-lined-valves", "ptfe-bellows"],
     seo: {
-      title: "PTFE Lined Pipes | Corrosion-Resistant Piping",
+      title: "PTFE Lined Pipes | Corrosion-Resistant Spools",
       description:
-        "PTFE, PFA and FEP lined carbon steel pipe spools engineered to ASTM F1545 for aggressive chemical, pharmaceutical and refinery service.",
+        "PTFE, PFA and FEP lined carbon steel pipe spools engineered to ASTM F1545 for aggressive chemical, pharmaceutical and refinery service. Quoted to drawing.",
     },
   },
 
@@ -212,9 +212,9 @@ export const products: Product[] = [
     ],
     related: ["ptfe-lined-pipes", "ptfe-lined-valves", "ptfe-products"],
     seo: {
-      title: "PTFE Lined Fittings | Elbows, Tees, Reducers & Flanges",
+      title: "PTFE Lined Fittings | Elbows, Tees & Flanges",
       description:
-        "PTFE lined elbows, tees, crosses, reducers and flanges manufactured to ASTM F1545 for corrosive process piping systems.",
+        "PTFE lined elbows, tees, crosses, reducers and flanges manufactured to ASTM F1545, with the liner flared over every face for corrosive process piping.",
     },
   },
 
@@ -292,9 +292,9 @@ export const products: Product[] = [
     ],
     related: ["ptfe-lined-pipes", "ptfe-lined-fittings", "dip-pipes"],
     seo: {
-      title: "PTFE Lined Valves | Ball, Plug, Butterfly & Flush Bottom",
+      title: "PTFE Lined Valves | Ball, Plug & Flush Bottom",
       description:
-        "Fluoropolymer lined ball, plug, butterfly, non-return, sampling and flush bottom valves for corrosive process service.",
+        "Fluoropolymer lined ball, plug, butterfly, non-return, sampling and flush bottom valves for corrosive process service. Grade selected against your duty.",
     },
   },
 
@@ -367,9 +367,9 @@ export const products: Product[] = [
     ],
     related: ["ptfe-lined-pipes", "flexible-hoses", "dip-pipes"],
     seo: {
-      title: "PTFE Bellows & Expansion Joints",
+      title: "PTFE Bellows & Lined Expansion Joints | Range",
       description:
-        "PTFE lined expansion joints and bellows absorbing thermal movement, vibration and misalignment in corrosive piping systems.",
+        "PTFE lined expansion joints and bellows absorbing thermal movement, vibration and misalignment in corrosive piping, with control hardware where specified.",
     },
   },
 
@@ -445,7 +445,7 @@ export const products: Product[] = [
     seo: {
       title: "Dip Pipes, Spargers & Lined Vessel Components",
       description:
-        "PTFE dip pipes, spargers, lined headers, domes, manhole covers and GLR nozzle bushes engineered to vessel drawings.",
+        "PTFE dip pipes, spargers, lined headers, domes, manhole covers and GLR nozzle bushes engineered to your vessel drawings for reactor sub-surface addition.",
     },
   },
 
@@ -521,9 +521,9 @@ export const products: Product[] = [
     ],
     related: ["ptfe-lined-fittings", "dip-pipes", "ptfe-lined-pipes"],
     seo: {
-      title: "Virgin & Filled PTFE Products | Gaskets, Bushes, Sheet & Rod",
+      title: "Virgin & Filled PTFE Products | Machined Parts",
       description:
-        "Moulded and machined PTFE components — envelope gaskets, spacers, bushes, sheet and rod in virgin and filled grades.",
+        "Moulded and machined PTFE components — envelope gaskets, spacers, bushes, sheet and rod in virgin and filled grades, machined to your drawing tolerances.",
     },
   },
 
@@ -597,9 +597,9 @@ export const products: Product[] = [
     ],
     related: ["ptfe-lined-pipes", "ptfe-bellows", "ptfe-lined-valves"],
     seo: {
-      title: "PTFE Lined Flexible Hoses",
+      title: "PTFE Lined Flexible Hoses | Braided Assemblies",
       description:
-        "Braided PTFE lined flexible hose assemblies for chemical transfer, vibration isolation and tanker loading duty.",
+        "Braided PTFE lined flexible hose assemblies for chemical transfer, vibration isolation and tanker loading duty, made to the assembly length you specify.",
     },
   },
 ];

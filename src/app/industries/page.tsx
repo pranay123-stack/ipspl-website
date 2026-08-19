@@ -18,7 +18,7 @@ import { breadcrumbSchema, industryListSchema, jsonLdGraph } from "@/lib/schema"
 export const metadata: Metadata = pageMetadata({
   title: "Fluoropolymer Systems for Process Industries | IPS-PL",
   description:
-    "PTFE lined systems for chemical, pharmaceutical, oil & gas, petrochemical, power, food and water processing plant.",
+    "PTFE lined systems for chemical, pharmaceutical, oil and gas, petrochemical, power, food and water processing plant. Eight industries, one specification.",
   path: "/industries",
 });
 

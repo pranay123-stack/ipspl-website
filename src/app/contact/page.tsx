@@ -11,11 +11,12 @@ import { ContactForm } from "@/components/forms/ContactForm";
 import { CrossLinks } from "@/components/seo/CrossLinks";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { breadcrumbSchema, jsonLdGraph } from "@/lib/schema";
+import { LocationMap } from "@/components/contact/LocationMap";
 
 export const metadata: Metadata = pageMetadata({
   title: "Contact Our Engineering Team | IPS-PL Vadodara, India",
   description:
-    "Contact Innovative Process Solutions - manufacturing in Vadodara, India, with regional representation in Thailand, Vietnam, China and Canada.",
+    "Contact Innovative Process Solutions: manufacturing in Vadodara, India, with regional representation in Thailand, Vietnam, China and Canada. Mon-Sat.",
   path: "/contact",
 });
 
@@ -116,6 +117,26 @@ export default function ContactPage() {
               </div>
             </Reveal>
           </div>
+        </Container>
+      </Section>
+
+      {/* Where to find us. Deliberately after the form: the map is useful
+          context, not a conversion path. */}
+      <Section spacing="md">
+        <Container>
+          <Reveal>
+            <SectionHeader
+              eyebrow="Find Us"
+              title={<>The Vadodara works.</>}
+              description="Manufacturing, lining, machining and inspection all happen at one site in the GIDC Waghodia estate. Visitors are welcome by arrangement."
+            />
+            <div className="mt-12 max-w-3xl">
+              <LocationMap
+                addressLines={company.contact.addressLines}
+                directionsUrl={company.contact.googleBusinessProfile}
+              />
+            </div>
+          </Reveal>
         </Container>
       </Section>
 

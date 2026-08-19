@@ -9,9 +9,21 @@ import type { Insight } from "@/lib/types";
  * properties) are good candidates to migrate first.
  */
 
+/**
+ * TODO(content): name the author of each article.
+ *
+ * Set `authorPerson: { name, jobTitle, credentials }` on an entry and it
+ * appears in the byline and in Article.author as a Person. Obtain the
+ * individual's consent first — this publishes their name and role.
+ */
 export const insights: Insight[] = [
   {
     slug: "selecting-a-fluoropolymer-liner",
+    seo: {
+      title: "Selecting a Fluoropolymer Liner | Beyond the Chart",
+      description:
+        "Why a compatibility chart is the start of liner selection, not the end: the full chemical inventory, cleaning agents and upsets all govern the grade.",
+    },
     category: "Materials",
     title: "Selecting a fluoropolymer liner: beyond the compatibility chart",
     excerpt:
@@ -34,6 +46,11 @@ export const insights: Insight[] = [
   },
   {
     slug: "why-lined-systems-fail-at-the-joint",
+    seo: {
+      title: "Why Lined Piping Systems Fail at the Joint | IPS-PL",
+      description:
+        "Lined systems rarely fail in the run. They fail where the liner meets the flange face, which is why the flared joint detail decides the life of the line.",
+    },
     category: "Engineering",
     title: "Why lined systems fail at the joint — and what to specify instead",
     excerpt:
@@ -56,6 +73,11 @@ export const insights: Insight[] = [
   },
   {
     slug: "expansion-joints-in-lined-piping",
+    seo: {
+      title: "Where Expansion Joints Belong in Lined Piping | IPS-PL",
+      description:
+        "Thermal growth has to go somewhere. Where expansion joints belong in a lined system, and what reaches equipment nozzles when that movement is not absorbed.",
+    },
     category: "Applications",
     title: "Where expansion joints belong in a lined piping system",
     excerpt:
@@ -78,6 +100,11 @@ export const insights: Insight[] = [
   },
   {
     slug: "material-traceability-in-process-plant",
+    seo: {
+      title: "Material Traceability in Process Plant | IPS-PL Notes",
+      description:
+        "What process plant auditors actually ask for: heat numbers, test and guarantee certificates, and the documentation chain behind a specified material.",
+    },
     category: "Industry",
     title: "Material traceability: what process plant auditors actually ask for",
     excerpt:
@@ -100,6 +127,11 @@ export const insights: Insight[] = [
   },
   {
     slug: "vacuum-service-lined-pipe",
+    seo: {
+      title: "Designing Lined Pipe for Vacuum Service | IPS-PL Notes",
+      description:
+        "Vacuum governs liner thickness and support, so it has to be declared at enquiry stage. What changes in a lined pipe specification when the duty is vacuum.",
+    },
     category: "Engineering",
     title: "Designing lined pipe for vacuum service",
     excerpt:
@@ -122,6 +154,11 @@ export const insights: Insight[] = [
   },
   {
     slug: "ips-pl-engineering-capability",
+    seo: {
+      title: "Engineering Capability at IPS-PL | Vadodara, India",
+      description:
+        "How enquiries become specified, manufactured and documented systems at the Vadodara works: process data review, liner selection, fabrication and inspection.",
+    },
     category: "Company News",
     title: "Engineering capability at IPS-PL",
     excerpt:

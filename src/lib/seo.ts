@@ -23,6 +23,10 @@ export function alternatesFor(path: string): Metadata["alternates"] {
       en: canonical,
       "x-default": canonical,
     },
+    // Feed discovery belongs here, not in the root layout: every page sets
+    // its own `alternates`, which replaces the layout's wholesale — so a
+    // layout-level declaration would survive on no page at all.
+    types: { "application/rss+xml": `${SITE_URL}/rss.xml` },
   };
 }
 

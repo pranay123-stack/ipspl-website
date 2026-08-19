@@ -11,9 +11,9 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { breadcrumbSchema, jsonLdGraph } from "@/lib/schema";
 
 export const metadata: Metadata = pageMetadata({
-  title: "Request a Quote for PTFE Lined Equipment | IPS-PL",
+  title: "Request a Quote for PTFE Lined Piping | IPS-PL India",
   description:
-    "Submit process data and drawings for PTFE lined pipes, fittings, valves and engineered fluoropolymer components.",
+    "Send process data and drawings for PTFE lined pipes, fittings, valves and engineered fluoropolymer components. We confirm grade, geometry and standards.",
   path: "/quote",
 });
 

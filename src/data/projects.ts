@@ -37,6 +37,11 @@ export const caseStudies: CaseStudy[] = [
     result:
       "The line was returned to service within the planned shutdown window.",
     productSlugs: ["ptfe-lined-pipes", "ptfe-lined-fittings", "ptfe-lined-valves"],
+    seo: {
+      title: "Concentrated Acid Line Replacement | Case Study | IPS-PL",
+      description:
+        "A repeatedly failing metallic acid line replaced with a fully PTFE lined system: pipe, fittings, valves and expansion joints to one specification.",
+    },
   },
   {
     slug: "pharma-api-transfer",
@@ -63,6 +68,11 @@ export const caseStudies: CaseStudy[] = [
     result:
       "The installation was documented to support audit.",
     productSlugs: ["ptfe-lined-pipes", "ptfe-lined-valves", "dip-pipes", "ptfe-products"],
+    seo: {
+      title: "High-Purity API Transfer Case Study | Pharma | IPS-PL",
+      description:
+        "Inert, documented transfer lines for a multi-product API facility: virgin fluoropolymer wetted parts, drainable layouts and representative sampling points.",
+    },
   },
   {
     slug: "refinery-effluent",
@@ -89,6 +99,11 @@ export const caseStudies: CaseStudy[] = [
     result:
       "The circuit was aligned to the site's turnaround interval.",
     productSlugs: ["ptfe-lined-pipes", "ptfe-bellows", "ptfe-lined-valves"],
+    seo: {
+      title: "Refinery Effluent Neutralisation Piping | IPS-PL Case Study",
+      description:
+        "Lined piping for effluent neutralisation on a refinery site, specified around the real duty cycle rather than replacing a failing metallic line like for like.",
+    },
   },
   {
     slug: "power-fgd",
@@ -115,6 +130,11 @@ export const caseStudies: CaseStudy[] = [
     result:
       "Components were specified to be replaceable within the station's outage window.",
     productSlugs: ["ptfe-lined-pipes", "ptfe-bellows", "ptfe-lined-valves"],
+    seo: {
+      title: "FGD Absorber Dosing & Slurry Handling | IPS-PL Case Study",
+      description:
+        "Lined dosing and slurry handling for flue gas desulphurisation, engineered around chloride-bearing duty where unlined and coated systems fail at the joint.",
+    },
   },
 ];
 

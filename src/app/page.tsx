@@ -17,7 +17,7 @@ import { CTASection } from "@/components/home/CTASection";
 export const metadata: Metadata = pageMetadata({
   title: "PTFE Lined Piping Systems Manufacturer | IPS-PL India",
   description:
-    "Manufacturer of PTFE lined pipes, fittings, valves and fluoropolymer components for chemical, pharmaceutical and refinery process plant. ISO 9001:2015, ASTM F1545.",
+    "Manufacturer of PTFE lined pipes, fittings, valves and fluoropolymer components for chemical, pharmaceutical and refinery plant. ISO 9001:2015 certified.",
   path: "/",
 });
 

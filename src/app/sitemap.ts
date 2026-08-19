@@ -50,11 +50,14 @@ export default function sitemap(): MetadataRoute.Sitemap {
       changeFrequency: "yearly" as const,
       priority: 0.7,
     })),
-    ...legalPages.map((page) => ({
+    // Pending policies carry noindex, so listing them would be contradictory.
+    ...legalPages
+      .filter((page) => !page.pending)
+      .map((page) => ({
       url: `${BASE}/legal/${page.slug}`,
       lastModified: now,
       changeFrequency: "yearly" as const,
       priority: 0.2,
-    })),
+      })),
   ];
 }

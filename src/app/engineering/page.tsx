@@ -16,9 +16,9 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { breadcrumbSchema, jsonLdGraph } from "@/lib/schema";
 
 export const metadata: Metadata = pageMetadata({
-  title: "Lined Piping Engineering & Specification | IPS-PL",
+  title: "Lined Piping Engineering & Specification | IPS-PL India",
   description:
-    "How IPS-PL moves from process data to a specified, manufactured, tested and documented fluoropolymer system.",
+    "How IPS-PL moves from your process data to a specified, manufactured, tested and documented fluoropolymer system, and what we need to start quoting it.",
   path: "/engineering",
 });
 

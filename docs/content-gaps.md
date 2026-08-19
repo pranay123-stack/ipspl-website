@@ -16,7 +16,7 @@ question shows as an absent row, never as an invented one.
 
 | Gap | Count | Blocks launch? |
 |---|---|---|
-| `TODO(content)` markers | 45 | Partly — see per-file notes |
+| `TODO(content)` markers | 53 | Partly — see per-file notes |
 | Placeholder photographs | 42 of 42 | **Yes** — see [photography-brief.md](./photography-brief.md) |
 | Stub articles | 6 of 6 | No — they publish, but thinly |
 | Specification rows with a stated source | 0 of 83 | **Yes** — every figure needs engineering sign-off |
@@ -24,7 +24,7 @@ question shows as an absent row, never as an invented one.
 ## Checking progress
 
 ```bash
-grep -rn "TODO(content)" src/     # 45 markers
+grep -rn "TODO(content)" src/     # 53 markers
 npm run check:images              # 42 placeholder images
 npm run docs:gaps                 # regenerate this file
 ```
@@ -64,41 +64,56 @@ Reference installations. `outcome` is the field that converts — a measurable r
 | `temperature` | confirm | [src/data/projects.ts:24](src/data/projects.ts#L24) |
 | `pressure` | confirm | [src/data/projects.ts:25](src/data/projects.ts#L25) |
 | `—` | measurable outcome, confirmed with the customer | [src/data/projects.ts:28](src/data/projects.ts#L28) |
-| `media` | confirm API/solvent | [src/data/projects.ts:49](src/data/projects.ts#L49) |
-| `temperature` | confirm | [src/data/projects.ts:50](src/data/projects.ts#L50) |
-| `pressure` | confirm | [src/data/projects.ts:51](src/data/projects.ts#L51) |
-| `—` | measurable outcome, confirmed with the customer | [src/data/projects.ts:54](src/data/projects.ts#L54) |
-| `temperature` | confirm | [src/data/projects.ts:76](src/data/projects.ts#L76) |
-| `pressure` | confirm | [src/data/projects.ts:77](src/data/projects.ts#L77) |
-| `—` | measurable outcome, confirmed with the customer | [src/data/projects.ts:80](src/data/projects.ts#L80) |
-| `temperature` | confirm | [src/data/projects.ts:102](src/data/projects.ts#L102) |
-| `pressure` | confirm | [src/data/projects.ts:103](src/data/projects.ts#L103) |
-| `—` | measurable outcome, confirmed with the customer | [src/data/projects.ts:106](src/data/projects.ts#L106) |
+| `media` | confirm API/solvent | [src/data/projects.ts:54](src/data/projects.ts#L54) |
+| `temperature` | confirm | [src/data/projects.ts:55](src/data/projects.ts#L55) |
+| `pressure` | confirm | [src/data/projects.ts:56](src/data/projects.ts#L56) |
+| `—` | measurable outcome, confirmed with the customer | [src/data/projects.ts:59](src/data/projects.ts#L59) |
+| `temperature` | confirm | [src/data/projects.ts:86](src/data/projects.ts#L86) |
+| `pressure` | confirm | [src/data/projects.ts:87](src/data/projects.ts#L87) |
+| `—` | measurable outcome, confirmed with the customer | [src/data/projects.ts:90](src/data/projects.ts#L90) |
+| `temperature` | confirm | [src/data/projects.ts:117](src/data/projects.ts#L117) |
+| `pressure` | confirm | [src/data/projects.ts:118](src/data/projects.ts#L118) |
+| `—` | measurable outcome, confirmed with the customer | [src/data/projects.ts:121](src/data/projects.ts#L121) |
 
-### `src/data/insights.ts` — 6 markers
-
-
-
-| Field | Needed | Location |
-|---|---|---|
-| `—` | expand to a published length and add subheadings | [src/data/insights.ts:31](src/data/insights.ts#L31) |
-| `—` | expand to a published length and add subheadings | [src/data/insights.ts:53](src/data/insights.ts#L53) |
-| `—` | expand to a published length and add subheadings | [src/data/insights.ts:75](src/data/insights.ts#L75) |
-| `—` | expand to a published length and add subheadings | [src/data/insights.ts:97](src/data/insights.ts#L97) |
-| `—` | expand to a published length and add subheadings | [src/data/insights.ts:119](src/data/insights.ts#L119) |
-| `—` | expand to a published length and add subheadings | [src/data/insights.ts:140](src/data/insights.ts#L140) |
-
-### `src/data/company.ts` — 5 markers
+### `src/data/company.ts` — 10 markers
 
 Regional network. Four countries are listed with no way to contact any of them, which is what most undermines the 'global engineering network' claim.
 
 | Field | Needed | Location |
 |---|---|---|
-| `—` | any further profiles (YouTube, IndiaMART, trade bodies) | [src/data/company.ts:39](src/data/company.ts#L39) |
-| `—` | city, address, direct line and regional email | [src/data/company.ts:107](src/data/company.ts#L107) |
-| `—` | city, address, direct line and regional email | [src/data/company.ts:114](src/data/company.ts#L114) |
-| `—` | address, direct line and regional email | [src/data/company.ts:122](src/data/company.ts#L122) |
-| `—` | city, address, direct line and regional email | [src/data/company.ts:129](src/data/company.ts#L129) |
+| `—` | Google Business Profile URL for the Vadodara works | [src/data/company.ts:44](src/data/company.ts#L44) |
+| `—` | any further profiles (YouTube, IndiaMART, trade bodies) | [src/data/company.ts:46](src/data/company.ts#L46) |
+| `—` | year IPS-PL was founded | [src/data/company.ts:58](src/data/company.ts#L58) |
+| `—` | employee count, or a band such as | [src/data/company.ts:60](src/data/company.ts#L60) |
+| `—` | GSTIN / VAT registration number | [src/data/company.ts:62](src/data/company.ts#L62) |
+| `—` | exact latitude/longitude of the Vadodara works | [src/data/company.ts:64](src/data/company.ts#L64) |
+| `—` | city, address, direct line and regional email | [src/data/company.ts:132](src/data/company.ts#L132) |
+| `—` | city, address, direct line and regional email | [src/data/company.ts:139](src/data/company.ts#L139) |
+| `—` | address, direct line and regional email | [src/data/company.ts:147](src/data/company.ts#L147) |
+| `—` | city, address, direct line and regional email | [src/data/company.ts:154](src/data/company.ts#L154) |
+
+### `src/data/insights.ts` — 7 markers
+
+
+
+| Field | Needed | Location |
+|---|---|---|
+| `—` | name the author of each article. | [src/data/insights.ts:13](src/data/insights.ts#L13) |
+| `—` | expand to a published length and add subheadings | [src/data/insights.ts:43](src/data/insights.ts#L43) |
+| `—` | expand to a published length and add subheadings | [src/data/insights.ts:70](src/data/insights.ts#L70) |
+| `—` | expand to a published length and add subheadings | [src/data/insights.ts:97](src/data/insights.ts#L97) |
+| `—` | expand to a published length and add subheadings | [src/data/insights.ts:124](src/data/insights.ts#L124) |
+| `—` | expand to a published length and add subheadings | [src/data/insights.ts:151](src/data/insights.ts#L151) |
+| `—` | expand to a published length and add subheadings | [src/data/insights.ts:177](src/data/insights.ts#L177) |
+
+### `src/data/standards.ts` — 2 markers
+
+
+
+| Field | Needed | Location |
+|---|---|---|
+| `—` | confirm this resolves — astm.org blocks automated checks | [src/data/standards.ts:32](src/data/standards.ts#L32) |
+| `—` | confirm this resolves — iso.org blocks automated checks | [src/data/standards.ts:39](src/data/standards.ts#L39) |
 
 ### `src/components/ui/SpecTable.tsx` — 1 marker
 
@@ -106,7 +121,7 @@ Regional network. Four countries are listed with no way to contact any of them, 
 
 | Field | Needed | Location |
 |---|---|---|
-| `—` | marker are dropped, and any | [src/components/ui/SpecTable.tsx:14](src/components/ui/SpecTable.tsx#L14) |
+| `—` | marker are dropped, and any | [src/components/ui/SpecTable.tsx:15](src/components/ui/SpecTable.tsx#L15) |
 
 ### `src/data/legal.ts` — 1 marker
 
@@ -114,7 +129,7 @@ Regional network. Four countries are listed with no way to contact any of them, 
 
 | Field | Needed | Location |
 |---|---|---|
-| `—` | counsel to confirm this page against the export markets IPS-PL sells into. | [src/data/legal.ts:115](src/data/legal.ts#L115) |
+| `—` | counsel to confirm this page against the export markets IPS-PL sells into. | [src/data/legal.ts:151](src/data/legal.ts#L151) |
 
 ### `src/lib/productSpecs.ts` — 1 marker
 
@@ -130,7 +145,7 @@ Regional network. Four countries are listed with no way to contact any of them, 
 
 | Field | Needed | Location |
 |---|---|---|
-| `—` | are omitted, so the | [src/lib/schema.ts:179](src/lib/schema.ts#L179) |
+| `—` | are omitted, so the | [src/lib/schema.ts:259](src/lib/schema.ts#L259) |
 
 ## Stub articles
 

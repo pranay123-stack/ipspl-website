@@ -1,5 +1,6 @@
 import type { SpecRow } from "@/lib/types";
 import { published } from "@/lib/content";
+import { StandardValue } from "@/components/ui/StandardLink";
 import { cn } from "@/lib/utils";
 
 /**
@@ -81,7 +82,7 @@ export function SpecTable({
                   {row.label}
                 </th>
                 <td className="px-3 py-2.5 text-right align-baseline text-body-sm font-medium tabular-nums text-white">
-                  {row.value}
+                  <StandardValue value={row.value} />
                   {row.note && (
                     <span className="mt-1 block text-caption font-normal tabular-nums text-steel-300">
                       {row.note}

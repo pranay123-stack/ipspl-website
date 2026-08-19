@@ -14,9 +14,9 @@ import { Eyebrow } from "@/components/ui/Eyebrow";
 import { Reveal, RevealGroup, RevealItem } from "@/components/ui/Reveal";
 import { CTABand } from "@/components/ui/CTABand";
 import { JsonLd } from "@/components/seo/JsonLd";
-import { breadcrumbSchema, jsonLdGraph } from "@/lib/schema";
+import { breadcrumbSchema, industryServiceSchema, jsonLdGraph } from "@/lib/schema";
 import { CrossLinks } from "@/components/seo/CrossLinks";
-import { caseStudiesForIndustry, insightsForIndustry } from "@/lib/crossLinks";
+import { caseStudiesForIndustry, insightsForIndustry, productsForIndustry } from "@/lib/crossLinks";
 import { alternatesFor } from "@/lib/seo";
 
 export function generateStaticParams() {
@@ -64,6 +64,7 @@ export default async function IndustryPage({
     <>
       <JsonLd
         json={jsonLdGraph(
+          industryServiceSchema(industry, productsForIndustry(industry)),
           breadcrumbSchema([
             { label: "Home", href: "/" },
             { label: "Industries", href: "/industries" },

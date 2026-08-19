@@ -17,7 +17,7 @@ import { breadcrumbSchema, caseStudyListSchema, jsonLdGraph } from "@/lib/schema
 export const metadata: Metadata = pageMetadata({
   title: "PTFE Lined System Case Studies & References | IPS-PL",
   description:
-    "Reference installations of PTFE lined piping, valves and engineered components in chemical, pharmaceutical, refinery and power plant.",
+    "Reference installations of PTFE lined piping, valves and engineered components in chemical, pharmaceutical, refinery and power plant, with duty and scope.",
   path: "/case-studies",
 });
 

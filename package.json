@@ -4,7 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "npm run check && next build",
+    "build": "npm run check && next build && npm run check:seo",
     "start": "next start",
     "lint": "eslint",
     "check:images": "node scripts/check-images.mjs",
@@ -12,7 +12,8 @@
     "check": "npm run check:breadcrumbs && CHECK_IMAGES=warn npm run check:images",
     "test:e2e": "playwright test",
     "docs:photography": "node scripts/photography-brief.mjs",
-    "docs:gaps": "node scripts/content-gaps.mjs"
+    "docs:gaps": "node scripts/content-gaps.mjs",
+    "check:seo": "node scripts/check-seo.mjs"
   },
   "dependencies": {
     "@upstash/ratelimit": "^2.0.8",

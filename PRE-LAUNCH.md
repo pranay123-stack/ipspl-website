@@ -166,6 +166,9 @@ Then, against the production build:
       `DRAWINGS NOT ATTACHED`.
 - [ ] **Tab the whole site**, menu open and closed. Focus must stay inside the mega
       menu and the mobile drawer; Escape closes both and returns focus to the trigger.
+- [ ] **Click the two unverified standards links** (CONTENT-BRIEF.md §2d).
+      astm.org and iso.org block automated checks, so those URLs are the only
+      outbound links on the site that have not been confirmed to load.
 - [ ] **Watch `[csp]` log entries for a week**, then set `CSP_ENFORCE=1`.
 - [ ] **Trigger a delivery failure deliberately** (revoke the Resend key for one
       submission) and confirm the alert arrives at `ALERT_WEBHOOK_URL`.
@@ -188,6 +191,20 @@ keyboard and touch users never see them. This is not a content loss — the map 
 are `aria-hidden` decoration, the interactive list beneath the map carries every
 country as a real control, and the footer repeats the list as text. Worth revisiting
 if the map ever becomes the primary way to reach regional contacts.
+
+**Legal pages index themselves when approved.** `pending: true` in
+`src/data/legal.ts` drives both `noindex` and exclusion from the sitemap. The
+cookie policy is already approved and indexable because it states verifiable
+fact; privacy and terms stay hidden while they read "describe the personal data
+collected". Clear the flag when counsel signs off and both follow — there is no
+second edit to remember.
+
+**`Product.offers` publishes no price, deliberately.** Everything is quoted
+against process data, so there is no list price. Search Console will report
+"Missing field price" as a non-critical warning on the seven product pages.
+That is the correct trade: a figure invented to silence the warning would be a
+price IPS-PL has not agreed to honour. The position is stated in
+`priceSpecification` instead, and the reasoning is in `src/lib/schema.ts`.
 
 **`og:type` is `website` on product pages, not `product`.** Next's metadata API
 restricts `og:type` to a fixed union that excludes `product`; emitting it anyway
@@ -247,10 +264,14 @@ from the prerendered HTML, so every crop and pixel width in it is what the site
 actually renders. Regenerate with `npm run docs:gaps` and
 `npm run docs:photography`. Edit the data files, not the documents.
 
-**Two build guards** run before `next build`:
+**Three build guards.** Two run before `next build`, one after:
 - `check:breadcrumbs` — fails if a page renders the visible breadcrumb nav without a
   matching `BreadcrumbList`
 - `check:images` — fails on any `isPlaceholder: true` (currently warns)
+- `check:seo` — fails if any route's title falls outside 50–60 characters, any
+  description outside 140–158, if two routes share either, or if a `keywords`
+  tag reappears. It reads the prerendered HTML, so it checks what a search
+  engine actually receives rather than what the source intended.
 
 **Provider boundaries.** Email goes through `EmailProvider` (`src/lib/email/`) and
 rate limiting through `RateLimiter` (`src/lib/rateLimit.ts`). Swapping Resend or

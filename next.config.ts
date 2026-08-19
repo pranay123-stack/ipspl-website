@@ -20,6 +20,14 @@ const nextConfig: NextConfig = {
     ];
   },
 
+  // /feed.xml is the other convention readers try; both 404'd before.
+  async redirects() {
+    return [
+      { source: "/feed.xml", destination: "/rss.xml", permanent: true },
+      { source: "/atom.xml", destination: "/rss.xml", permanent: true },
+    ];
+  },
+
   // First-party proxy for Plausible, so ad blockers do not remove the tag.
   async rewrites() {
     return [

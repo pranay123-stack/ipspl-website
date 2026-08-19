@@ -8,6 +8,7 @@ import { HashScroll } from "@/components/navigation/HashScroll";
 import { company } from "@/data/company";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { jsonLdGraph, organizationSchema, websiteSchema } from "@/lib/schema";
+import { alternatesFor } from "@/lib/seo";
 import "./globals.css";
 import { PlaceholderOverlay } from "@/components/dev/PlaceholderOverlay";
 import { ContactLinkTracking } from "@/components/analytics/ContactLinkTracking";
@@ -36,19 +37,10 @@ export const metadata: Metadata = {
   },
   description: company.summary,
   applicationName: company.legalName,
-  keywords: [
-    "PTFE lined pipes",
-    "PTFE lined fittings",
-    "PTFE lined valves",
-    "fluoropolymer solutions",
-    "ASTM F1545",
-    "lined piping systems",
-    "PTFE bellows",
-    "dip pipes",
-    "chemical process piping",
-  ],
+  // No `keywords`: ignored by every major engine since 2009, and it publishes
+  // the whole targeting list to any competitor who views source.
   authors: [{ name: company.legalName }],
-  alternates: { canonical: "/" },
+  alternates: alternatesFor("/"),
   openGraph: {
     type: "website",
     siteName: company.legalName,

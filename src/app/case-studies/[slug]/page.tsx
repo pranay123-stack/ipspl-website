@@ -31,8 +31,11 @@ export async function generateMetadata({
   if (!study) return { title: "Case study not found" };
 
   return {
-    title: `${study.title} | ${study.sector} Case Study`,
-    description: study.summary,
+    // Authored rather than composed: the composed form ran to 100 characters
+    // on the longest study, and summaries were written for the card, not the
+    // SERP. `npm run check:seo` holds both to the band.
+    title: { absolute: study.seo.title },
+    description: study.seo.description,
     alternates: alternatesFor(`/case-studies/${study.slug}`),
     openGraph: {
       type: "article",

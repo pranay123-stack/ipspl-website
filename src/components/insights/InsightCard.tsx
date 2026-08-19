@@ -77,7 +77,7 @@ export function InsightCard({
           </p>
 
           <span className="mt-6 flex flex-wrap items-center gap-x-3 gap-y-1 tech-label-xs text-steel-300">
-            <span>{insight.author}</span>
+            <span>{insight.authorPerson?.name ?? insight.author}</span>
             <span aria-hidden="true">·</span>
             <span>{readingTimeLabel(insight.blocks)}</span>
             <StubFlag isStub={insight.isStub} label="stub" />
