@@ -164,7 +164,7 @@ Then, against the production build:
 - [ ] **Submit `/quote` with a 5 MB file** and confirm the "Send the enquiry without
       drawings" path produces a reference and an internal email headed
       `DRAWINGS NOT ATTACHED`.
-- [ ] **Tab the whole site**, menu open and closed. Focus must stay inside the mega
+- [ ] **Tab the whole site** at 390px as well as desktop, menu open and closed. Focus must stay inside the mega
       menu and the mobile drawer; Escape closes both and returns focus to the trigger.
 - [ ] **Click the two unverified standards links** (CONTENT-BRIEF.md §2d).
       astm.org and iso.org block automated checks, so those URLs are the only
@@ -184,6 +184,13 @@ Then, against the production build:
 client page — the two-step form, in-browser validation and the file input, 242 KB JS
 of which 77 KB is unused. Fixable by validating only the current step and importing
 the schema lazily. Not done; flagged rather than hidden.
+
+**The mobile quote CTA is a shortened label, not a separate control.** Below
+640px the header button reads "Quote" rather than "Request Quote" — the logo and
+the menu trigger leave no room for the full wording at 320px, but they do leave
+room for the action. Previously it was `hidden` below 640px, so on a phone the
+primary conversion path existed only inside the drawer. The sticky bar still
+appears at 40% scroll; the two are complementary, not alternatives.
 
 **Map tooltips are hover-only.** The four country labels on the global-presence map
 (Thailand, Vietnam, China, Canada) appear on hover and are `pointer-events: none`, so

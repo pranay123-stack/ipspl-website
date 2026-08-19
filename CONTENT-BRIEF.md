@@ -238,7 +238,11 @@ thicknesses.
 
 ## 6. Editorial — optional, valuable
 
-Six articles exist, attributed to "IPS-PL Engineering".
+Six articles exist, attributed to "IPS-PL Engineering". Each is now organised
+under subheadings — an article with no `<h2>` is unnavigable for a screen-reader
+user, and all six had none. The headings label prose that was already there;
+none of them asserts anything the paragraph beneath it does not already say.
+Expanding an article is a matter of adding blocks under the existing headings.
 
 **Name the authors.** `Article.author` is currently the organisation. A named
 engineer with a role and credentials carries far more weight for technical

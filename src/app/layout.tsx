@@ -72,7 +72,10 @@ export const viewport: Viewport = {
 export default function RootLayout({ children }: LayoutProps<"/">) {
   return (
     <html
-      lang="en"
+      // en-IN, not en: the audience reads Indian phone formats, an Indian
+      // postal address and Indian spelling conventions, and the works is in
+      // Gujarat. It also tells a screen reader which English to pronounce.
+      lang="en-IN"
       className={`${inter.variable} ${plexMono.variable} antialiased`}
     >
       <head>

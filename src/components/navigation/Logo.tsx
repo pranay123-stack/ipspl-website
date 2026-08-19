@@ -6,11 +6,23 @@ import { cn } from "@/lib/utils";
  * HANDOVER: replace the inner markup with the supplied IPS-PL logo asset.
  * The wrapper handles sizing and the light/dark colour switch.
  */
-export function Logo({ tone = "dark" }: { tone?: "dark" | "light" }) {
+export function Logo({
+  tone = "dark",
+  current = false,
+}: {
+  tone?: "dark" | "light";
+  /**
+   * True on the homepage. Passed in rather than read from usePathname here,
+   * because the footer renders this on the server and the wordmark is not
+   * worth a client boundary of its own.
+   */
+  current?: boolean;
+}) {
   return (
     <Link
       href="/"
       aria-label="Innovative Process Solutions — home"
+      aria-current={current ? "page" : undefined}
       className="group flex min-h-[44px] items-center gap-3 py-1"
     >
       {/* Accent block — stands in for the logo device. */}

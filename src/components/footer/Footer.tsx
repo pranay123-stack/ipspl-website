@@ -1,6 +1,7 @@
 import Link from "next/link";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { footerNav, legalNav } from "@/data/navigation";
+import { FooterNav } from "./FooterNav";
 import { company, globalLocations } from "@/data/company";
 import { Container } from "@/components/layout/Container";
 import { Logo } from "@/components/navigation/Logo";
@@ -91,25 +92,7 @@ export function Footer() {
           </div>
 
           <div className="grid gap-10 sm:grid-cols-3">
-            {footerNav.map((group) => (
-              <nav key={group.title} aria-label={group.title}>
-                <p className="tech-label border-b border-white/10 pb-3 text-steel-300">
-                  {group.title}
-                </p>
-                <ul className="mt-5 space-y-3.5">
-                  {group.links.map((link) => (
-                    <li key={link.href}>
-                      <Link
-                        href={link.href}
-                        className="inline-flex min-h-[44px] items-center py-2 text-body-sm text-steel-300 transition-colors hover:text-white"
-                      >
-                        {link.label}
-                      </Link>
-                    </li>
-                  ))}
-                </ul>
-              </nav>
-            ))}
+            <FooterNav groups={footerNav} />
           </div>
         </div>
 

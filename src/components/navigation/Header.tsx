@@ -14,6 +14,7 @@ import { Logo } from "./Logo";
 const MegaMenu = dynamic(() => import("./MegaMenu").then((m) => m.MegaMenu));
 const MobileNav = dynamic(() => import("./MobileNav").then((m) => m.MobileNav));
 import { cn } from "@/lib/utils";
+import { MOBILE_NAV_ID } from "./ids";
 
 /**
  * Global header.
@@ -130,7 +131,7 @@ export function Header() {
 
         {/* Primary bar */}
         <div className="mx-auto flex max-w-[1400px] items-center justify-between gap-8 px-6 py-4 md:px-10 xl:px-14">
-          <Logo tone="light" />
+          <Logo tone="light" current={pathname === "/"} />
 
           <nav aria-label="Primary" className="hidden nav:block">
             <ul className="flex items-center gap-5 xl:gap-8">
@@ -146,6 +147,17 @@ export function Header() {
                         aria-expanded={openMenu === item.label}
                         aria-controls={`megamenu-${item.label.toLowerCase()}`}
                         aria-haspopup="true"
+                        // A mega-menu item is still a link target: on
+                        // /products the Products trigger IS the current page,
+                        // and "true" would announce only that we are
+                        // somewhere in the section.
+                        aria-current={
+                          pathname === item.href
+                            ? "page"
+                            : active
+                              ? "true"
+                              : undefined
+                        }
                         onClick={() =>
                           setOpenMenu(openMenu === item.label ? null : item.label)
                         }
@@ -168,7 +180,21 @@ export function Header() {
                         />
                       </button>
                     ) : (
-                      <Link href={item.href} className={linkClass(active)}>
+                      <Link
+                        href={item.href}
+                        // Exact match only: "page" must mean this page, not an
+                        // ancestor of it. A section that merely contains the
+                        // current page gets `true`, which is what
+                        // aria-current is for.
+                        aria-current={
+                          pathname === item.href
+                            ? "page"
+                            : active
+                              ? "true"
+                              : undefined
+                        }
+                        className={linkClass(active)}
+                      >
                         {item.label}
                         <span
                           aria-hidden="true"
@@ -188,6 +214,7 @@ export function Header() {
           <div className="flex items-center gap-3">
             <Link
               href="/contact"
+              aria-current={pathname === "/contact" ? "page" : undefined}
               className={cn(
                 "hidden whitespace-nowrap px-5 py-3 text-[0.75rem] font-medium uppercase tracking-[0.1em] transition-colors duration-300 xl:inline-flex",
                 "text-white/80 hover:text-white",
@@ -197,9 +224,14 @@ export function Header() {
             </Link>
             <Link
               href="/quote"
-              className="hidden whitespace-nowrap bg-accent px-6 py-3.5 text-[0.75rem] font-medium uppercase tracking-[0.1em] text-white transition-colors duration-300 hover:bg-accent-bright sm:inline-flex"
+              aria-current={pathname === "/quote" ? "page" : undefined}
+              className="inline-flex min-h-[44px] items-center whitespace-nowrap bg-accent px-4 py-3.5 text-[0.75rem] font-medium uppercase tracking-[0.1em] text-white transition-colors duration-300 hover:bg-accent-bright sm:px-6"
             >
-              Request Quote
+              {/* The label shortens rather than the button disappearing —
+                  below 640px the logo and menu trigger leave no room for the
+                  full wording, but they do leave room for the action. */}
+              <span className="sm:hidden">Quote</span>
+              <span className="hidden sm:inline">Request Quote</span>
             </Link>
             <button
               ref={menuTriggerRef}
@@ -210,6 +242,7 @@ export function Header() {
               }}
               aria-expanded={mobileOpen}
               aria-haspopup="dialog"
+              aria-controls={MOBILE_NAV_ID}
               aria-label="Open navigation"
               className={cn(
                 "flex h-11 w-11 items-center justify-center border transition-colors nav:hidden",

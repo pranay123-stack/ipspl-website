@@ -20,7 +20,9 @@ export function alternatesFor(path: string): Metadata["alternates"] {
   return {
     canonical,
     languages: {
-      en: canonical,
+      // Matches <html lang>. x-default points at the same URL because there
+      // is one locale — nothing here is machine-translated.
+      "en-IN": canonical,
       "x-default": canonical,
     },
     // Feed discovery belongs here, not in the root layout: every page sets

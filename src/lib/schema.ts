@@ -107,7 +107,7 @@ export function organizationSchema(): Json {
         contactType: "sales",
         telephone: company.contact.phones[0],
         email: company.contact.salesEmail,
-        availableLanguage: ["en"],
+        availableLanguage: ["en-IN"],
         areaServed: globalLocations.map((l) => l.country),
       },
     ],
@@ -145,7 +145,7 @@ export function websiteSchema(): Json {
     name: company.legalName,
     alternateName: company.shortName,
     publisher: { "@id": ORG_ID },
-    inLanguage: "en",
+    inLanguage: "en-IN",
   };
 }
 
@@ -225,7 +225,7 @@ export function articleSchema(insight: Insight): Json {
     // happened; set `updated` on the article to emit a real revision date.
     dateModified: insight.updated ?? insight.date,
     articleSection: insight.category,
-    inLanguage: "en",
+    inLanguage: "en-IN",
     // A named person outranks an organisation byline for technical content,
     // but only once that person has agreed to be named — until then the
     // organisation is the honest author.
@@ -274,7 +274,7 @@ export function caseStudySchema(study: CaseStudy, products: Product[]): Json {
     description: study.summary,
     image: abs(getImage(study.imageKey).src),
     url: `${SITE_URL}/case-studies/${study.slug}`,
-    inLanguage: "en",
+    inLanguage: "en-IN",
     genre: study.sector,
     author: { "@id": ORG_ID },
     publisher: { "@id": ORG_ID },

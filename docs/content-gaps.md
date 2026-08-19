@@ -99,12 +99,12 @@ Regional network. Four countries are listed with no way to contact any of them, 
 | Field | Needed | Location |
 |---|---|---|
 | `—` | name the author of each article. | [src/data/insights.ts:13](src/data/insights.ts#L13) |
-| `—` | expand to a published length and add subheadings | [src/data/insights.ts:43](src/data/insights.ts#L43) |
-| `—` | expand to a published length and add subheadings | [src/data/insights.ts:70](src/data/insights.ts#L70) |
-| `—` | expand to a published length and add subheadings | [src/data/insights.ts:97](src/data/insights.ts#L97) |
-| `—` | expand to a published length and add subheadings | [src/data/insights.ts:124](src/data/insights.ts#L124) |
-| `—` | expand to a published length and add subheadings | [src/data/insights.ts:151](src/data/insights.ts#L151) |
-| `—` | expand to a published length and add subheadings | [src/data/insights.ts:177](src/data/insights.ts#L177) |
+| `—` | expand to a published length and add subheadings | [src/data/insights.ts:47](src/data/insights.ts#L47) |
+| `—` | expand to a published length and add subheadings | [src/data/insights.ts:78](src/data/insights.ts#L78) |
+| `—` | expand to a published length and add subheadings | [src/data/insights.ts:109](src/data/insights.ts#L109) |
+| `—` | expand to a published length and add subheadings | [src/data/insights.ts:140](src/data/insights.ts#L140) |
+| `—` | expand to a published length and add subheadings | [src/data/insights.ts:170](src/data/insights.ts#L170) |
+| `—` | expand to a published length and add subheadings | [src/data/insights.ts:199](src/data/insights.ts#L199) |
 
 ### `src/data/standards.ts` — 2 markers
 

@@ -54,7 +54,7 @@ export async function GET() {
     <link>${SITE_URL}/insights</link>
     <atom:link href="${SITE_URL}/rss.xml" rel="self" type="application/rss+xml"/>
     <description>Technical notes on fluoropolymer material selection, lined system failure modes, expansion provision and specification practice.</description>
-    <language>en</language>
+    <language>en-IN</language>
     <copyright>© ${new Date(updated).getUTCFullYear()} ${escape(company.legalName)}</copyright>
     <lastBuildDate>${new Date(updated).toUTCString()}</lastBuildDate>
     <generator>Next.js</generator>

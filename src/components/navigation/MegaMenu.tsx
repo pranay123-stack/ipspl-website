@@ -1,5 +1,7 @@
 "use client";
 
+import { usePathname } from "next/navigation";
+
 import { useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
@@ -28,6 +30,7 @@ export function MegaMenu({
 }) {
   const panelRef = useRef<HTMLDivElement>(null);
   const menu = item.megaMenu;
+  const pathname = usePathname();
 
   useEffect(() => {
     const panel = panelRef.current;
@@ -108,7 +111,12 @@ export function MegaMenu({
               <ul className="mt-5 space-y-4">
                 {column.items.map((link) => (
                   <li key={link.href}>
-                    <Link href={link.href} onClick={onNavigate} className="group block">
+                    <Link
+                      href={link.href}
+                      onClick={onNavigate}
+                      aria-current={pathname === link.href ? "page" : undefined}
+                      className="group block"
+                    >
                       <span className="flex items-center gap-2 text-heading-sm text-white transition-colors group-hover:text-accent-bright">
                         {link.label}
                         <ArrowRight

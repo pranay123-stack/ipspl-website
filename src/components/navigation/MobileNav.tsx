@@ -1,12 +1,14 @@
 "use client";
 
 import { useCallback, useEffect, useId, useRef, useState } from "react";
+import { usePathname } from "next/navigation";
 import Link from "next/link";
 import { ChevronDown, ArrowRight, X } from "lucide-react";
 import { drawerNav } from "@/data/navigation";
 import { company } from "@/data/company";
 import { Logo } from "./Logo";
 import { cn } from "@/lib/utils";
+import { MOBILE_NAV_ID } from "./ids";
 
 /**
  * Mobile navigation drawer.
@@ -38,6 +40,10 @@ export function MobileNav({
   // the first frame so menu items never render over the page behind them.
   const [entered, setEntered] = useState(false);
   const panelId = useId();
+  const pathname = usePathname();
+  /** Exact match is the current page; an ancestor is only "true". */
+  const current = (href: string) =>
+    pathname === href ? "page" : pathname.startsWith(`${href}/`) ? "true" : undefined;
 
   const handleClose = useCallback(() => {
     setEntered(false);
@@ -88,6 +94,7 @@ export function MobileNav({
 
   return (
     <dialog
+      id={MOBILE_NAV_ID}
       ref={dialogRef}
       aria-label="Site navigation"
       className="nav-dialog lg:hidden"
@@ -100,7 +107,7 @@ export function MobileNav({
         )}
       >
         <div className="flex items-center justify-between border-b border-white/10 px-6 py-5">
-          <Logo tone="light" />
+          <Logo tone="light" current={pathname === "/"} />
           <button
             ref={closeRef}
             type="button"
@@ -125,6 +132,7 @@ export function MobileNav({
                     <Link
                       href={section.href}
                       onClick={handleClose}
+                      aria-current={current(section.href)}
                       className="flex flex-1 items-center gap-3 py-5 text-[1.375rem] font-semibold tracking-[-0.03em] text-white"
                     >
                       {section.label}
@@ -168,6 +176,7 @@ export function MobileNav({
                                   <Link
                                     href={link.href}
                                     onClick={handleClose}
+                                    aria-current={current(link.href)}
                                     className="block py-2 text-body-md text-steel-200"
                                   >
                                     {link.label}
