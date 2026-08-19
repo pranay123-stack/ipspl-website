@@ -90,7 +90,11 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         <ContactLinkTracking />
         <HashScroll />
         <Header />
-        <main id="main" className="flex-1">
+        {/* tabIndex={-1}: a bare <main id="main"> is not focusable, so the
+            skip link moved the scroll position but left focus in the header —
+            the next Tab then continued through the nav the user had just
+            asked to skip. */}
+        <main id="main" tabIndex={-1} className="flex-1 outline-none">
           {children}
         </main>
         <Footer />

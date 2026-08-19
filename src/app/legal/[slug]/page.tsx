@@ -6,6 +6,7 @@ import { Section } from "@/components/layout/Section";
 import { PageHero } from "@/components/layout/PageHero";
 import { Reveal } from "@/components/ui/Reveal";
 import { alternatesFor } from "@/lib/seo";
+import { publishedList } from "@/lib/content";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { breadcrumbSchema, jsonLdGraph } from "@/lib/schema";
 
@@ -73,7 +74,7 @@ export default async function LegalPage({
                   </span>
                   <h2 className="mt-3 text-heading-md text-white">{section.heading}</h2>
                   <div className="mt-4 space-y-4">
-                    {section.body.map((paragraph, j) => (
+                    {publishedList(section.body).map((paragraph, j) => (
                       <p key={j} className="text-body-md text-steel-300">
                         {paragraph}
                       </p>

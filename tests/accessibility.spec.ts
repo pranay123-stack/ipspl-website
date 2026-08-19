@@ -160,3 +160,31 @@ test.describe("icons and language", () => {
     }
   });
 });
+
+test.describe("skip link", () => {
+  test("moves focus into main, not just the scroll position", async ({ page }) => {
+    // A bare <main id="main"> is not focusable, so activating the skip link
+    // scrolled the page but left focus in the header — the next Tab then walked
+    // back through the navigation the user had just asked to skip.
+    await page.goto("/");
+    await page.keyboard.press("Tab");
+    await expect(page.locator(":focus")).toHaveText(/skip to content/i);
+
+    await page.keyboard.press("Enter");
+    await page.waitForTimeout(300);
+    expect(await page.evaluate(() => document.activeElement?.id)).toBe("main");
+  });
+
+  test("the next tab after skipping lands inside main", async ({ page }) => {
+    await page.goto("/");
+    await page.keyboard.press("Tab");
+    await page.keyboard.press("Enter");
+    await page.waitForTimeout(300);
+    await page.keyboard.press("Tab");
+
+    const insideMain = await page.evaluate(() =>
+      Boolean(document.getElementById("main")?.contains(document.activeElement)),
+    );
+    expect(insideMain, "focus went back into the header").toBe(true);
+  });
+});

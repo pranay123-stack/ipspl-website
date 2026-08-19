@@ -136,3 +136,24 @@ test.describe("outbound authority links", () => {
     }
   });
 });
+
+test.describe("no internal markers reach a reader", () => {
+  test("no page renders a TODO(content) marker", async ({ page }) => {
+    // /legal/cookies shipped one to visitors — and that page is indexable and
+    // in the sitemap, so it was a to-do note Google would have crawled. Every
+    // other data surface filters markers through published(); the legal page
+    // rendered its body array directly.
+    const routes = [
+      "/", "/products", "/quote", "/contact",
+      "/legal/cookies", "/legal/privacy", "/legal/terms",
+      "/case-studies/chemical-acid-transfer", "/products/ptfe-lined-pipes",
+      "/insights/vacuum-service-lined-pipe",
+    ];
+    for (const route of routes) {
+      await page.goto(route);
+      const text = await page.locator("body").innerText();
+      expect(text, route).not.toContain("TODO(content)");
+      expect(text, route).not.toMatch(/lorem ipsum/i);
+    }
+  });
+});
