@@ -22,7 +22,14 @@ export default defineConfig({
     command: "npm run build && npx next start -p 3210",
     // The capture provider replaces the console fallback so an integration
     // test can assert what was actually sent, not merely that a 200 came back.
-    env: { EMAIL_CAPTURE_DIR },
+    env: {
+      EMAIL_CAPTURE_DIR,
+      // Set so the suite exercises the configured state of the booking link.
+      // The *unconfigured* state is covered by the map and LinkedIn slots,
+      // which are deliberately left unset — between them the tests cover both
+      // halves of every optional value.
+      NEXT_PUBLIC_BOOKING_URL: "https://calendly.com/ips-pl-test/engineering-call",
+    },
     url: "http://localhost:3210",
     // Never reuse: port 3100 was already serving an unrelated project, and
     // reuseExistingServer attached to it — every assertion then ran against

@@ -15,7 +15,9 @@ import { ExternalLink, MapPin } from "lucide-react";
  * renders the address and any directions link, because an address a buyer can
  * copy is most of the value and a broken embed is worse than none.
  */
-const EMBED_URL = process.env.NEXT_PUBLIC_GOOGLE_MAPS_EMBED_URL;
+import { env } from "@/lib/env";
+
+const EMBED_URL = env.mapsEmbedUrl;
 
 export function LocationMap({
   addressLines,

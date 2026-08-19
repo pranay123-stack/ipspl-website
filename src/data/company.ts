@@ -1,4 +1,5 @@
 import type { GlobalLocation, SpecRow } from "@/lib/types";
+import { env } from "@/lib/env";
 
 /**
  * COMPANY DATA
@@ -26,23 +27,31 @@ export const company = {
   contact: {
     /** Verified: registered office address on ips-pl.com. */
     addressLines: ["188/3, GIDC Waghodia", "Vadodara, Gujarat 391760", "India"],
-    /** Verified: published landline numbers. */
-    phones: ["+91 2668 263555", "+91 2668 263666"],
-    email: "info@ips-pl.com",
-    salesEmail: "sales@ips-pl.com",
+    /**
+     * Published landline numbers. Verified from ips-pl.com; overridable with
+     * NEXT_PUBLIC_PHONES (comma-separated) so a number can change without a
+     * code edit. The literals here are the fallback, so the site renders
+     * correctly with no environment configured at all.
+     */
+    phones: env.phones,
+    email: env.contactEmail,
+    /** Displayed on the site. Where enquiry mail is delivered is a separate,
+     *  server-only setting: SALES_INBOX_EMAIL. */
+    salesEmail: env.salesEmail,
     /** Verified: published working hours. */
     hours: [
       { days: "Monday – Friday", time: "08:00 – 18:00 IST" },
       { days: "Saturday", time: "09:00 – 14:00 IST" },
     ],
-    linkedin: null as string | null,
+    /** Set NEXT_PUBLIC_LINKEDIN_URL. Absent renders nothing rather than a dead link. */
+    linkedin: env.linkedin,
     /**
      * Google Business Profile URL. Drives the map and the "find us" link on
      * /contact, and joins Organization.sameAs. Absent rather than guessed:
      * a wrong profile URL sends buyers to another company.
      */
-    // TODO(content): Google Business Profile URL for the Vadodara works
-    googleBusinessProfile: null as string | null,
+    // TODO(content): Google Business Profile URL — set NEXT_PUBLIC_GOOGLE_BUSINESS_PROFILE
+    googleBusinessProfile: env.googleBusinessProfile,
     /**
      * Scheduling link — Calendly, Cal.com, or anything that opens in a browser.
      *
@@ -58,9 +67,10 @@ export const company = {
      * owns the calendar: a booking page with no free slots, or a missed call,
      * damages credibility more than not offering one.
      */
-    // TODO(content): replace with IPS-PL's own Calendly account before launch —
-    // this is currently the developer's personal link.
-    bookingUrl: "https://calendly.com/pranaygaurav4555" as string | null,
+    // TODO(content): IPS-PL's own scheduling account — set NEXT_PUBLIC_BOOKING_URL.
+    // A malformed value is treated as absent, so a typo in the dashboard
+    // hides the button rather than publishing a link that goes nowhere.
+    bookingUrl: env.bookingUrl,
     // TODO(content): any further profiles (YouTube, IndiaMART, trade bodies)
     social: [] as { label: string; url: string }[],
   },

@@ -21,9 +21,28 @@ misconfigured production deploy fails silently. Verify each one below.
 | `UPSTASH_REDIS_REST_TOKEN` | **Yes** | As above |
 | `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` | Yes | No analytics — you cannot measure anything |
 | `NEXT_PUBLIC_SITE_URL` | Yes | Canonicals, hreflang and schema fall back to `www.ips-pl.com` |
+| `NEXT_PUBLIC_BOOKING_URL` | Optional | No "Book a call" button |
+| `NEXT_PUBLIC_LINKEDIN_URL` | Recommended | No footer link, and `Organization.sameAs` stays absent |
+| `NEXT_PUBLIC_GOOGLE_BUSINESS_PROFILE` | Recommended | No Directions link on `/contact` |
+| `NEXT_PUBLIC_CONTACT_EMAIL` / `_SALES_EMAIL` / `_PHONES` | Optional | Falls back to the published details |
 | `ALERT_WEBHOOK_URL` | **Yes** | **A failed enquiry is logged and nobody is told.** |
 | `NEXT_PUBLIC_TURNSTILE_SITE_KEY` + `TURNSTILE_SECRET_KEY` | Recommended | No bot challenge; the honeypot alone |
 | `CSP_ENFORCE` | Later | CSP stays report-only — see below |
+
+### A note on `NEXT_PUBLIC_*`
+
+These are **inlined when the site is built**, not read when a visitor loads a
+page. Changing one in the hosting dashboard takes effect on the next deploy,
+not immediately. The gain is that the change happens in Vercel rather than in
+TypeScript — a different person's job.
+
+Every URL among them is validated: a malformed value is treated as absent, so
+a typo hides the link rather than publishing one that goes nowhere. Verified
+by `tests/env-config.spec.ts`.
+
+`NEXT_PUBLIC_SALES_EMAIL` is what visitors **see**. `SALES_INBOX_EMAIL` is
+where enquiry mail is **delivered**. They can differ, and on a busy site they
+probably should.
 
 ### Email domain setup
 

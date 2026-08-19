@@ -1,3 +1,5 @@
+import { env } from "./env";
+
 /**
  * SECURITY HEADERS
  * ================
@@ -53,7 +55,9 @@ function contentSecurityPolicy(isDev: boolean): string {
   const turnstile = Boolean(process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY);
   const cf = turnstile ? " https://challenges.cloudflare.com" : "";
   // The /contact map is a Google iframe, and only exists when configured.
-  const maps = Boolean(process.env.NEXT_PUBLIC_GOOGLE_MAPS_EMBED_URL);
+  // The same validated value the component uses, so an invalid URL cannot
+  // widen frame-src for an iframe that will never be rendered.
+  const maps = Boolean(env.mapsEmbedUrl);
   const frameSources = [
     ...(turnstile ? ["https://challenges.cloudflare.com"] : []),
     ...(maps ? ["https://www.google.com", "https://maps.google.com"] : []),
