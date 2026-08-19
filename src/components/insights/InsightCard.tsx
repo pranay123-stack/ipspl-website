@@ -5,7 +5,6 @@ import { getImage, IMAGE_BLUR } from "@/data/images";
 import { formatDate } from "@/lib/utils";
 import { cn } from "@/lib/utils";
 import { readingTimeLabel } from "@/lib/readingTime";
-import { StubFlag } from "@/components/dev/ContentFlag";
 
 /**
  * Editorial insight card, styled like an industrial publication rather than
@@ -80,7 +79,6 @@ export function InsightCard({
             <span>{insight.authorPerson?.name ?? insight.author}</span>
             <span aria-hidden="true">·</span>
             <span>{readingTimeLabel(insight.blocks)}</span>
-            <StubFlag isStub={insight.isStub} label="stub" />
           </span>
         </div>
       </Link>

@@ -82,16 +82,16 @@ Regional network. Four countries are listed with no way to contact any of them, 
 | Field | Needed | Location |
 |---|---|---|
 | `—` | Google Business Profile URL for the Vadodara works | [src/data/company.ts:44](src/data/company.ts#L44) |
-| `—` | scheduling URL, once someone owns the calendar | [src/data/company.ts:61](src/data/company.ts#L61) |
-| `—` | any further profiles (YouTube, IndiaMART, trade bodies) | [src/data/company.ts:63](src/data/company.ts#L63) |
-| `—` | year IPS-PL was founded | [src/data/company.ts:75](src/data/company.ts#L75) |
-| `—` | employee count, or a band such as | [src/data/company.ts:77](src/data/company.ts#L77) |
-| `—` | GSTIN / VAT registration number | [src/data/company.ts:79](src/data/company.ts#L79) |
-| `—` | exact latitude/longitude of the Vadodara works | [src/data/company.ts:81](src/data/company.ts#L81) |
-| `—` | city, address, direct line and regional email | [src/data/company.ts:149](src/data/company.ts#L149) |
-| `—` | city, address, direct line and regional email | [src/data/company.ts:156](src/data/company.ts#L156) |
-| `—` | address, direct line and regional email | [src/data/company.ts:164](src/data/company.ts#L164) |
-| `—` | city, address, direct line and regional email | [src/data/company.ts:171](src/data/company.ts#L171) |
+| `—` | replace with IPS-PL | [src/data/company.ts:61](src/data/company.ts#L61) |
+| `—` | any further profiles (YouTube, IndiaMART, trade bodies) | [src/data/company.ts:64](src/data/company.ts#L64) |
+| `—` | year IPS-PL was founded | [src/data/company.ts:76](src/data/company.ts#L76) |
+| `—` | employee count, or a band such as | [src/data/company.ts:78](src/data/company.ts#L78) |
+| `—` | GSTIN / VAT registration number | [src/data/company.ts:80](src/data/company.ts#L80) |
+| `—` | exact latitude/longitude of the Vadodara works | [src/data/company.ts:82](src/data/company.ts#L82) |
+| `—` | city, address, direct line and regional email | [src/data/company.ts:150](src/data/company.ts#L150) |
+| `—` | city, address, direct line and regional email | [src/data/company.ts:157](src/data/company.ts#L157) |
+| `—` | address, direct line and regional email | [src/data/company.ts:165](src/data/company.ts#L165) |
+| `—` | city, address, direct line and regional email | [src/data/company.ts:172](src/data/company.ts#L172) |
 
 ### `src/data/insights.ts` — 7 markers
 

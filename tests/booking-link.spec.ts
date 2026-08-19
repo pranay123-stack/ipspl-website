@@ -14,14 +14,18 @@ import { readFileSync } from "node:fs";
 const COMPANY = "src/data/company.ts";
 
 test.describe("booking link", () => {
-  test("is absent until a URL is supplied", async ({ page }) => {
-    // Nothing may render on a speculative slot — an empty panel or a dead
-    // button reads as broken, which is worse than no offer at all.
-    await page.goto("/quote");
-    expect(await page.locator("text=Not ready to send drawings?").count()).toBe(0);
-
-    await page.goto("/contact");
-    expect(await page.getByRole("link", { name: /book a call/i }).count()).toBe(0);
+  test("opens the scheduler in a new tab, safely", async ({ page }) => {
+    for (const path of ["/quote", "/contact"]) {
+      await page.goto(path);
+      const link = page.getByRole("link", { name: /book a call/i }).first();
+      await expect(link).toBeVisible();
+      // target=_blank without noopener hands the opener to a third party.
+      await expect(link).toHaveAttribute("target", "_blank");
+      expect(await link.getAttribute("rel")).toContain("noopener");
+      expect(await link.getAttribute("href")).toMatch(/^https:\/\//);
+      // Tap target.
+      expect((await link.boundingBox())!.height).toBeGreaterThanOrEqual(44);
+    }
   });
 
   test("no scheduler is embedded anywhere", async ({ page }) => {

@@ -10,7 +10,6 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { jsonLdGraph, organizationSchema, websiteSchema } from "@/lib/schema";
 import { alternatesFor } from "@/lib/seo";
 import "./globals.css";
-import { PlaceholderOverlay } from "@/components/dev/PlaceholderOverlay";
 import { ContactLinkTracking } from "@/components/analytics/ContactLinkTracking";
 
 const inter = Inter({
@@ -99,7 +98,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         </main>
         <Footer />
         <StickyQuoteBar />
-        {process.env.NODE_ENV !== "production" && <PlaceholderOverlay />}
       </body>
     </html>
   );

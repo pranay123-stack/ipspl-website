@@ -58,8 +58,9 @@ export const company = {
      * owns the calendar: a booking page with no free slots, or a missed call,
      * damages credibility more than not offering one.
      */
-    // TODO(content): scheduling URL, once someone owns the calendar
-    bookingUrl: null as string | null,
+    // TODO(content): replace with IPS-PL's own Calendly account before launch —
+    // this is currently the developer's personal link.
+    bookingUrl: "https://calendly.com/pranaygaurav4555" as string | null,
     // TODO(content): any further profiles (YouTube, IndiaMART, trade bodies)
     social: [] as { label: string; url: string }[],
   },

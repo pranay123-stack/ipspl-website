@@ -12,7 +12,6 @@ import { Reveal } from "@/components/ui/Reveal";
 import { InsightCard } from "@/components/insights/InsightCard";
 import { ArticleBody } from "@/components/insights/ArticleBody";
 import { readingTimeLabel } from "@/lib/readingTime";
-import { StubFlag } from "@/components/dev/ContentFlag";
 import { JsonLd } from "@/components/seo/JsonLd";
 import { articleSchema, breadcrumbSchema, jsonLdGraph } from "@/lib/schema";
 import { CrossLinks } from "@/components/seo/CrossLinks";
@@ -100,9 +99,6 @@ export default async function InsightPage({
       <Section spacing="lg">
         <Container size="narrow">
           <Reveal>
-            <p className="mb-6 empty:hidden">
-              <StubFlag isStub={insight.isStub} />
-            </p>
             <ArticleBody blocks={insight.blocks} />
 
             {insight.tags && insight.tags.length > 0 && (
