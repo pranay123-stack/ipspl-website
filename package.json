@@ -4,16 +4,29 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "npm run check && next build",
     "start": "next start",
-    "lint": "eslint"
+    "lint": "eslint",
+    "check:images": "node scripts/check-images.mjs",
+    "check:breadcrumbs": "node scripts/check-breadcrumbs.mjs",
+    "check": "npm run check:breadcrumbs && CHECK_IMAGES=warn npm run check:images",
+    "test:e2e": "playwright test",
+    "docs:photography": "node scripts/photography-brief.mjs",
+    "docs:gaps": "node scripts/content-gaps.mjs"
   },
   "dependencies": {
+    "@upstash/ratelimit": "^2.0.8",
+    "@upstash/redis": "^1.38.2",
+    "framer-motion": "^13.1.0",
+    "lucide-react": "^1.31.0",
     "next": "16.3.1",
     "react": "19.2.8",
-    "react-dom": "19.2.8"
+    "react-dom": "19.2.8",
+    "resend": "^6.20.0",
+    "zod": "^4.4.3"
   },
   "devDependencies": {
+    "@playwright/test": "^1.62.1",
     "@tailwindcss/postcss": "^4",
     "@types/node": "^20",
     "@types/react": "^19",

@@ -1,26 +1,483 @@
 @import "tailwindcss";
 
-:root {
-  --background: #ffffff;
-  --foreground: #171717;
+/* ============================================================
+   IPS-PL DESIGN SYSTEM
+   Industrial / engineering visual language.
+   Restrained palette, one accent hue, sharp geometry.
+   ============================================================ */
+
+@theme {
+  /* ---------- Colour: structural greys ---------- */
+  --color-ink-950: #05070a;
+  --color-ink-900: #0a0e14;
+  --color-ink-850: #0d131b;
+  --color-ink-800: #11161f;
+  --color-ink-700: #1a212c;
+  --color-ink-600: #263040;
+
+  /* Dark surface ladder. Steps are deliberately small — section separation
+     comes from hairline borders and grain, not from heavy tonal jumps. */
+  --color-surface-base: #05070a;
+  --color-surface-raised: #0a0e14;
+  --color-surface-card: #0e141d;
+  --color-surface-hover: #131b26;
+
+  --color-steel-600: #3a4453;
+  --color-steel-500: #4a5568;
+  --color-steel-400: #6b7688;
+  /* Tertiary text on dark surfaces. Sized to clear 4.5:1 against the lightest
+     dark surface (#0e141d) — steel-400 does not. */
+  --color-steel-350: #828d9c;
+  --color-steel-300: #98a1b0;
+  --color-steel-200: #c4cad4;
+  --color-steel-100: #e3e7ec;
+  --color-steel-50: #f4f6f8;
+
+  /* ---------- Colour: single controlled accent ---------- */
+  --color-accent: #0f5fd4;
+  --color-accent-bright: #3b87f5;
+  --color-accent-dim: #0a3f8f;
+  --color-accent-wash: #eef4fe;
+
+  /* ---------- Typography ---------- */
+  /* Inline nav becomes viable here. Measured: even the condensed row needs
+     ~923px of content width, so 900px never actually fit — it only appeared
+     to because 960-1023px is a narrow passing band. */
+  --breakpoint-nav: 64rem;
+
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-mono-technical), ui-monospace, monospace;
+
+  --text-display-2xl: clamp(2.125rem, 3.3vw, 3.5rem);
+  --text-display-2xl--line-height: 0.98;
+  --text-display-2xl--letter-spacing: -0.045em;
+  --text-display-2xl--font-weight: 600;
+
+  --text-display-xl: clamp(2.375rem, 5vw, 4.75rem);
+  --text-display-xl--line-height: 0.94;
+  --text-display-xl--letter-spacing: -0.04em;
+  --text-display-xl--font-weight: 600;
+
+  --text-display-lg: clamp(2rem, 4vw, 3.5rem);
+  --text-display-lg--line-height: 0.98;
+  --text-display-lg--letter-spacing: -0.035em;
+  --text-display-lg--font-weight: 600;
+
+  --text-heading-xl: clamp(1.75rem, 2.9vw, 2.625rem);
+  --text-heading-xl--line-height: 1.05;
+  --text-heading-xl--letter-spacing: -0.03em;
+  --text-heading-xl--font-weight: 600;
+
+  --text-heading-lg: clamp(1.5rem, 2.4vw, 2.125rem);
+  --text-heading-lg--line-height: 1.12;
+  --text-heading-lg--letter-spacing: -0.025em;
+  --text-heading-lg--font-weight: 600;
+
+  --text-heading-md: 1.3125rem;
+  --text-heading-md--line-height: 1.25;
+  --text-heading-md--letter-spacing: -0.018em;
+  --text-heading-md--font-weight: 600;
+
+  --text-heading-sm: 1.0625rem;
+  --text-heading-sm--line-height: 1.35;
+  --text-heading-sm--letter-spacing: -0.012em;
+  --text-heading-sm--font-weight: 600;
+
+  --text-body-lg: 1.125rem;
+  --text-body-lg--line-height: 1.65;
+  --text-body-lg--letter-spacing: -0.008em;
+
+  --text-body-md: 1rem;
+  --text-body-md--line-height: 1.65;
+
+  --text-body-sm: 0.9375rem;
+  --text-body-sm--line-height: 1.6;
+
+  /* Smallest step in the scale. Tailwind's text-xs (12px) is the floor;
+     anything below is removed so it cannot be reached from a utility. */
+  --text-xs: 0.75rem;
+  --text-2xs: initial;
+
+  /* Smallest size used for prose. 12-13px is reserved for the tech-label
+     micro-labels, where small type is a deliberate device. */
+  --text-caption: 0.9375rem;
+  --text-caption--line-height: 1.6;
+
+  --text-label: 0.75rem;
+  --text-label--line-height: 1.2;
+  --text-label--letter-spacing: 0.16em;
+  --text-label--font-weight: 500;
+
+  /* ---------- Section rhythm ---------- */
+  --spacing-section-sm: 2.75rem;
+  --spacing-section-md: 4rem;
+  --spacing-section-lg: 5.25rem;
+  --spacing-section-xl: 6.5rem;
+
+  /* ---------- Geometry: restrained, near-square ---------- */
+  --radius-none: 0px;
+  --radius-xs: 1px;
+  --radius-sm: 2px;
+  --radius-md: 3px;
+
+  /* ---------- Photography ----------
+     One treatment for every photograph so new imagery inherits the palette
+     instead of each shot being colour-graded by hand. */
+  --overlay-photo: linear-gradient(
+    to top,
+    rgba(5, 7, 10, 0.82) 0%,
+    rgba(5, 7, 10, 0.42) 42%,
+    rgba(5, 7, 10, 0.18) 100%
+  );
+  --photo-filter: saturate(0.82) contrast(1.04) brightness(0.94);
+
+  /* ---------- Motion ---------- */
+  --ease-industrial: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
+/* ---------- Base ---------- */
+@layer base {
+  html {
+    -webkit-text-size-adjust: 100%;
+    scroll-behavior: smooth;
+  }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+  body {
+    background-color: var(--color-surface-base);
+    color: var(--color-steel-100);
+    font-family: var(--font-sans);
+    font-synthesis-weight: none;
+    text-rendering: optimizeLegibility;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* Visible focus for keyboard users only.
+     accent-bright rather than accent: it clears 3:1 against the dark surfaces
+     (5.5:1), against white buttons (3.6:1) and against the accent fill, where
+     the base accent was the same colour as its own ring. The dark halo keeps
+     the ring readable on light and accent grounds alike. */
+  :focus-visible {
+    outline: 2px solid var(--color-accent-bright);
+    outline-offset: 2px;
+    box-shadow: 0 0 0 4px rgba(5, 7, 10, 0.9);
+  }
+
+  ::selection {
+    background-color: var(--color-accent);
+    color: #ffffff;
+  }
+
+  /* Film grain. This is what stops a dark palette reading as flat black —
+     it sits above everything, is pointer-transparent, and costs one
+     composited layer. Kept very low so it registers as texture, not noise. */
+  body::after {
+    content: "";
+    position: fixed;
+    inset: 0;
+    z-index: 60;
+    pointer-events: none;
+    opacity: 0.04;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='3'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)'/%3E%3C/svg%3E");
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    html {
+      scroll-behavior: auto;
+    }
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+    }
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+/* ---------- Reusable primitives ---------- */
+@layer components {
+  /* Technical micro-labels. Two sizes only — eyebrows, column headings and
+     form labels at .tech-label (13px); card meta, indices and captions at
+     the -xs variant (12px). Nothing below 12px. Everything uses the same 0.16em tracking so the small type reads
+     as one system rather than nine near-identical variants. */
+  .tech-label {
+    font-family: var(--font-mono);
+    font-size: 0.8125rem;
+    line-height: 1.2;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  .tech-label-xs {
+    font-family: var(--font-mono);
+    font-size: 0.75rem;
+    line-height: 1.2;
+    letter-spacing: 0.16em;
+    text-transform: uppercase;
+    font-weight: 500;
+  }
+
+  /* Faint engineering grid, used behind dark sections. */
+  .tech-grid {
+    background-image:
+      linear-gradient(to right, rgba(255, 255, 255, 0.045) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(255, 255, 255, 0.045) 1px, transparent 1px);
+    background-size: 72px 72px;
+  }
+
+  .tech-grid-light {
+    background-image:
+      linear-gradient(to right, rgba(10, 14, 20, 0.05) 1px, transparent 1px),
+      linear-gradient(to bottom, rgba(10, 14, 20, 0.05) 1px, transparent 1px);
+    background-size: 72px 72px;
+  }
+
+  /* Masks the grid away at the edges so it never looks like a table. */
+  .tech-grid-fade {
+    mask-image: radial-gradient(ellipse 80% 65% at 50% 40%, #000 30%, transparent 100%);
+  }
+}
+
+/* Standard photographic treatment. Apply to any image container: the scrim
+   keeps a shot inside the palette and guarantees a dark ground under overlaid
+   text, and the filter pulls saturated originals (teal skies, orange
+   refineries) back toward the brand. */
+.photo-scrim {
+  position: relative;
+}
+
+.photo-scrim > img {
+  filter: var(--photo-filter);
+}
+
+.photo-scrim::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: var(--overlay-photo);
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* Content layered over a treated image must sit above the scrim. */
+.photo-scrim > *:not(img) {
+  position: relative;
+  z-index: 2;
+}
+
+/* Anchor landing offset. Driven by --header-h, which Header.tsx publishes
+   from its measured height, so the utility strip appearing or collapsing
+   keeps the two in sync. The fallback matches the collapsed header. */
+.anchor-offset {
+  scroll-margin-top: calc(var(--header-h, 5rem) + 1.5rem);
+}
+
+/* Hides scrollbars on deliberately horizontal-scrolling rails. */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+.no-scrollbar {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+
+/* ---------- Hero entrance ----------
+   Driven by CSS, not JS, so the first screen paints and animates without
+   waiting for hydration. This keeps the hero copy out of the LCP critical
+   path; `animation-fill-mode: both` holds the start state during the delay.
+   The reduced-motion block above collapses these to a near-zero duration. */
+@keyframes ips-rise {
+  from { transform: translateY(110%); }
+  to { transform: translateY(0); }
+}
+
+@keyframes ips-fade-up {
+  from { opacity: 0; transform: translateY(18px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes ips-bob {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(7px); }
+}
+
+.hero-rise {
+  animation: ips-rise 0.9s var(--ease-industrial) both;
+}
+
+.hero-fade-up {
+  animation: ips-fade-up 0.7s var(--ease-industrial) both;
+}
+
+.hero-bob {
+  animation: ips-bob 2.2s ease-in-out infinite;
+}
+
+/* ---------- Scroll reveal ----------
+   Driven by IntersectionObserver + CSS transitions rather than a JS animation
+   runtime. There are ~100 revealed elements across the site; running them
+   through a motion library cost meaningful main-thread time during hydration
+   for what is a two-property transition. Framer Motion is retained where it
+   earns its keep — the mega menu, mobile drawer and map markers. */
+.reveal {
+  /* Transform only — never opacity.
+     Fading in meant that during a fast scroll (or a slow first paint) real
+     copy sat on screen at partial opacity: the article CTA and the
+     related-articles grid were both measured invisible while in view. A
+     larger pre-trigger reduces that window but cannot close it, because the
+     transition still has to run. Animating position instead keeps every word
+     legible at all times and preserves the same rise. */
+  transform: translateY(20px);
+  transition: transform 0.55s var(--ease-industrial);
+  transition-delay: var(--reveal-delay, 0ms);
+  will-change: transform;
+}
+
+.reveal[data-revealed="true"] {
+  transform: none;
+  will-change: auto;
+}
+
+/* First-screen content: present immediately, no entrance to wait through. */
+.reveal[data-reveal-instant="true"] {
+  transform: none;
+  transition: none;
+}
+
+/* Without JS the content must still be readable. */
+.no-js-reveal .reveal {
+  transform: none;
+}
+
+/* Reveals are decoration; under reduced motion the content is simply present.
+   The global transition-duration override alone still shipped the element at
+   opacity 0 until the scroll pass ran. */
+@media (prefers-reduced-motion: reduce) {
+  .reveal,
+  .reveal[data-revealed="false"] {
+    transform: none;
+    transition: none;
+  }
+
+  /* Every decorative animation, named rather than relying on the blanket
+     `*` duration override alone. */
+  .hero-drift,
+  .hero-parallax,
+  .hero-rise,
+  .hero-fade-up,
+  .hero-bob,
+  .map-pulse {
+    animation: none !important;
+    transform: none !important;
+    opacity: 1 !important;
+  }
+}
+
+/* ---------- Global-presence map marker pulse ---------- */
+@keyframes ips-pulse {
+  0% { transform: translate(-50%, -50%) scale(0.25); opacity: 0.55; }
+  100% { transform: translate(-50%, -50%) scale(1); opacity: 0; }
+}
+
+.map-pulse {
+  animation: ips-pulse 2.6s ease-out infinite;
+}
+
+/* ---------- Hero photography motion ----------
+   A static photograph behind large type reads as a slide. A very slow drift
+   makes the same frame feel cinematic without becoming "an animation" — the
+   movement is below the threshold of conscious notice at ~0.3%/second.
+
+   Transform only, so it composites on the GPU and costs no layout. The
+   reduced-motion override collapses the duration, leaving a still frame at
+   the end state — which is why the keyframes start already scaled. */
+@keyframes ips-drift {
+  from { transform: scale(1.05) translate3d(0, 0, 0); }
+  to   { transform: scale(1.13) translate3d(-1.4%, -1.2%, 0); }
+}
+
+.hero-drift {
+  animation: ips-drift 30s ease-in-out infinite alternate;
+  will-change: transform;
+}
+
+/* Scroll parallax: the photograph falls away more slowly than the copy above
+   it. Progressive enhancement — browsers without scroll-driven animation
+   simply get the drift, which is why the layer is oversized either way. */
+@keyframes ips-parallax {
+  from { transform: translate3d(0, 0, 0); }
+  to   { transform: translate3d(0, 9%, 0); }
+}
+
+@supports (animation-timeline: view()) {
+  .hero-parallax {
+    animation: ips-parallax linear both;
+    animation-timeline: view();
+    animation-range: contain 0% exit 100%;
+  }
+}
+
+/* ---------- Mobile navigation dialog ----------
+   The surface is opaque from the first painted frame; only the contents
+   transition. Fading the backdrop let menu items render over the hero
+   headline while it was still translucent. */
+.nav-dialog {
+  width: 100%;
+  max-width: none;
+  height: 100%;
+  max-height: none;
+  padding: 0;
+  border: 0;
+  margin: 0;
+  inset: 0;
+  overflow: hidden;
+  background-color: var(--color-surface-base);
+  color: var(--color-steel-100);
+}
+
+.nav-dialog::backdrop {
+  background-color: rgba(5, 7, 10, 0.72);
+}
+
+.nav-dialog__content {
+  opacity: 0;
+  transform: translateY(-6px);
+  transition:
+    opacity 180ms var(--ease-industrial),
+    transform 180ms var(--ease-industrial);
+}
+
+.nav-dialog__content.is-entered {
+  opacity: 1;
+  transform: none;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .nav-dialog__content {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+}
+
+/* Reserve the scrollbar gutter permanently. Locking body scroll when the
+   dialog opens otherwise removes the scrollbar and reflows the header,
+   shifting the logo and the menu trigger sideways. */
+html {
+  scrollbar-gutter: stable;
+}
+
+/* ---------- Document request dialog ---------- */
+.doc-dialog {
+  width: min(30rem, calc(100vw - 2rem));
+  max-width: none;
+  padding: 0;
+  border: 1px solid rgba(255, 255, 255, 0.14);
+  background-color: var(--color-surface-raised);
+  color: var(--color-steel-100);
+}
+
+.doc-dialog::backdrop {
+  background-color: rgba(5, 7, 10, 0.72);
 }
