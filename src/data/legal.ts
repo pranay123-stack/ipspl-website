@@ -90,12 +90,30 @@ export const legalPages: LegalPage[] = [
       {
         heading: "What cookies we use",
         body: [
-          "This site currently sets no analytics or marketing cookies. If analytics, tag management or chat tools are introduced, each cookie, its purpose and its lifetime will be listed here.",
+          "This website sets no cookies. Not for analytics, not for advertising, not for session management — the site issues no Set-Cookie header of any kind, so there is nothing here to consent to and no consent banner to dismiss.",
+          "That is a deliberate design choice rather than an omission, and the statement is worth checking rather than taking on trust: open your browser's developer tools, look under Application or Storage, and the cookie list for this domain will be empty.",
+        ],
+      },
+      {
+        heading: "How we measure visits",
+        body: [
+          "We use Plausible Analytics, which is cookieless. It records the page visited, the referring site, and the country, browser, operating system and device type derived from your request — all in aggregate. It does not set a cookie, does not store your IP address, and does not create an identifier that would let us recognise you on a later visit or follow you to another website.",
+          "Because no personal data is stored and no identifier is created, there is no profile to request, correct or delete. Analytics is loaded from this domain rather than a third-party host, so no request about your visit leaves our origin to an advertising network.",
+        ],
+      },
+      {
+        heading: "What is stored in your browser",
+        body: [
+          "One thing is stored locally, and it never reaches our servers: if you begin a quotation enquiry and do not finish it, the details you have typed are kept in your browser's session storage so that moving between the two steps, or returning to the tab, does not lose your work. It is cleared when the enquiry is sent and when you close the tab.",
+          "It is not a cookie, it is not transmitted with any request, and clearing your browser data removes it.",
         ],
       },
       {
         heading: "Managing cookies",
-        body: ["Explain how visitors can control cookies, and provide a consent mechanism if one is required in the target markets."],
+        body: [
+          "There is nothing to manage while the position above holds. If IPS-PL later introduces anything that sets a cookie — a tag manager, a chat widget, an advertising pixel — this page must be updated to list each cookie, its purpose and its lifetime, and a consent mechanism must be in place before it loads, covering India, the EU and the UK.",
+          "TODO(content): counsel to confirm this page against the export markets IPS-PL sells into.",
+        ],
       },
     ],
   },

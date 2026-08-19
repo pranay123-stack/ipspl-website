@@ -14,7 +14,8 @@ export type SubmitOutcome =
   | { ok: true; reference: string; rejectedFiles: { filename: string; reason: string }[] }
   | { ok: false; kind: "validation"; message: string; fieldErrors: Record<string, string> }
   | { ok: false; kind: "payload_too_large"; message: string }
-  | { ok: false; kind: "rate_limited"; message: string }
+  | { ok: false; kind: "rate_limited"; message: string; retryAfterSeconds?: number }
+  | { ok: false; kind: "challenge_failed"; message: string }
   | { ok: false; kind: "send_failed"; message: string }
   | { ok: false; kind: "network"; message: string };
 
@@ -76,7 +77,19 @@ export async function submitEnquiry(body: FormData): Promise<SubmitOutcome> {
       fieldErrors: (payload.fieldErrors as Record<string, string>) ?? {},
     };
   }
-  if (kind === "rate_limited") return { ok: false, kind: "rate_limited", message };
+  if (kind === "rate_limited") {
+    // Retry-After is authoritative; the body value is a convenience copy.
+    const header = Number(response.headers.get("Retry-After"));
+    return {
+      ok: false,
+      kind: "rate_limited",
+      message,
+      retryAfterSeconds: Number.isFinite(header)
+        ? header
+        : (payload.retryAfterSeconds as number | undefined),
+    };
+  }
+  if (kind === "challenge_failed") return { ok: false, kind: "challenge_failed", message };
   if (kind === "payload_too_large") return { ok: false, kind: "payload_too_large", message };
   return { ok: false, kind: "send_failed", message };
 }

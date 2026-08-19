@@ -1,6 +1,19 @@
 import { z } from "zod";
 
 /**
+ * Disable zod's JIT schema compilation before any schema is built.
+ *
+ * Zod probes for `new Function` to decide whether it can compile validators.
+ * The probe is wrapped in try/catch and degrades safely, but the browser still
+ * files a `script-src` violation for it — which showed up as the only CSP
+ * report on /quote and /contact when the report-only policy went live. Turning
+ * the probe off removes the report and the last reason `'unsafe-eval'` would
+ * ever be needed. The cost is interpreted rather than compiled validation of
+ * one twelve-field form, which is not measurable here.
+ */
+z.config({ jitless: true });
+
+/**
  * ENQUIRY SCHEMA
  * ==============
  * One definition, imported by both the client form and the route handler.

@@ -16,7 +16,7 @@ question shows as an absent row, never as an invented one.
 
 | Gap | Count | Blocks launch? |
 |---|---|---|
-| `TODO(content)` markers | 44 | Partly — see per-file notes |
+| `TODO(content)` markers | 45 | Partly — see per-file notes |
 | Placeholder photographs | 42 of 42 | **Yes** — see [photography-brief.md](./photography-brief.md) |
 | Stub articles | 6 of 6 | No — they publish, but thinly |
 | Specification rows with a stated source | 0 of 83 | **Yes** — every figure needs engineering sign-off |
@@ -24,7 +24,7 @@ question shows as an absent row, never as an invented one.
 ## Checking progress
 
 ```bash
-grep -rn "TODO(content)" src/     # 44 markers
+grep -rn "TODO(content)" src/     # 45 markers
 npm run check:images              # 42 placeholder images
 npm run docs:gaps                 # regenerate this file
 ```
@@ -107,6 +107,14 @@ Regional network. Four countries are listed with no way to contact any of them, 
 | Field | Needed | Location |
 |---|---|---|
 | `—` | marker are dropped, and any | [src/components/ui/SpecTable.tsx:14](src/components/ui/SpecTable.tsx#L14) |
+
+### `src/data/legal.ts` — 1 marker
+
+
+
+| Field | Needed | Location |
+|---|---|---|
+| `—` | counsel to confirm this page against the export markets IPS-PL sells into. | [src/data/legal.ts:115](src/data/legal.ts#L115) |
 
 ### `src/lib/productSpecs.ts` — 1 marker
 

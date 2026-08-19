@@ -10,6 +10,7 @@ import {
   ACCEPTED_EXTENSIONS, MAX_FILES, MAX_FILE_BYTES, MAX_TOTAL_BYTES, mb,
 } from "@/lib/fileRules";
 import { submitEnquiry } from "@/lib/submitEnquiry";
+import { Turnstile, attachTurnstileToken, resetTurnstile } from "@/components/forms/Turnstile";
 import { track } from "@/lib/analytics";
 import { TextField, SelectField, TextAreaField, FieldSet, fieldId } from "./Field";
 import { cn } from "@/lib/utils";
@@ -37,7 +38,7 @@ type Errors = Record<string, string>;
 type Blocker =
   | null
   | { kind: "payload_too_large"; message: string }
-  | { kind: "rate_limited" | "send_failed" | "network"; message: string };
+  | { kind: "rate_limited" | "challenge_failed" | "send_failed" | "network"; message: string };
 
 export function QuoteForm() {
   const router = useRouter();
@@ -120,7 +121,7 @@ export function QuoteForm() {
 
   function goToStep(next: 1 | 2) {
     setStep(next);
-    if (next === 2) track("quote_step_2");
+    if (next === 2) track("quote_step_1_complete");
     // Focus the new step's heading so the change is announced and the
     // keyboard position is correct.
     requestAnimationFrame(() => {
@@ -193,6 +194,7 @@ export function QuoteForm() {
     for (const [k, v] of Object.entries(form)) body.set(k, v);
     if (!includeFiles) body.set("drawingsOmitted", "true");
     if (includeFiles) for (const f of files) body.append("files", f);
+    attachTurnstileToken(body);
     return body;
   }
 
@@ -200,10 +202,11 @@ export function QuoteForm() {
     setStatus("submitting");
     setBlocker(null);
 
+    track("quote_step_2_complete", { product: form.product || "unspecified" });
     const outcome = await submitEnquiry(buildBody(includeFiles));
 
     if (outcome.ok) {
-      track("quote_submit", { product: form.product || "unspecified" });
+      track("quote_submitted", { product: form.product || "unspecified" });
       try {
         sessionStorage.removeItem(STORAGE_KEY);
       } catch {
@@ -228,6 +231,9 @@ export function QuoteForm() {
       return;
     }
 
+    // A Turnstile token is single-use; a spent one must be cleared or the
+    // retry fails for a reason the visitor cannot see.
+    resetTurnstile();
     setBlocker({ kind: outcome.kind, message: outcome.message });
   }
 
@@ -457,10 +463,16 @@ export function QuoteForm() {
           </div>
         )}
 
+        <Turnstile />
+
         {blocker && blocker.kind !== "payload_too_large" && (
           <div className="border border-red-400/50 bg-red-400/10 p-6">
             <h3 className="text-heading-sm text-red-300">
-              {blocker.kind === "rate_limited" ? "Too many attempts" : "We could not send your enquiry"}
+              {blocker.kind === "rate_limited"
+                ? "Too many attempts"
+                : blocker.kind === "challenge_failed"
+                  ? "We could not verify your browser"
+                  : "We could not send your enquiry"}
             </h3>
             <p className="mt-3 max-w-xl text-[0.875rem] leading-6 text-steel-200">{blocker.message}</p>
           </div>

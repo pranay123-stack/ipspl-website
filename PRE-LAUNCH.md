@@ -21,6 +21,9 @@ misconfigured production deploy fails silently. Verify each one below.
 | `UPSTASH_REDIS_REST_TOKEN` | **Yes** | As above |
 | `NEXT_PUBLIC_PLAUSIBLE_DOMAIN` | Yes | No analytics — you cannot measure anything |
 | `NEXT_PUBLIC_SITE_URL` | Yes | Canonicals, hreflang and schema fall back to `www.ips-pl.com` |
+| `ALERT_WEBHOOK_URL` | **Yes** | **A failed enquiry is logged and nobody is told.** |
+| `NEXT_PUBLIC_TURNSTILE_SITE_KEY` + `TURNSTILE_SECRET_KEY` | Recommended | No bot challenge; the honeypot alone |
+| `CSP_ENFORCE` | Later | CSP stays report-only — see below |
 
 ### Email domain setup
 
@@ -52,6 +55,9 @@ enquiry end to end.
       customer or a search engine may treat them as a commitment.
 - [ ] **Legal pages** reviewed by counsel. They are indexable.
 - [ ] **Regional office details** (CONTENT-BRIEF.md §2).
+- [ ] **`ALERT_WEBHOOK_URL` set and tested.** Post a test payload to it, then
+      confirm the alert arrives. Without this a delivery failure is a log line:
+      the enquirer is told to email `sales@` directly and most will not.
 
 ---
 
@@ -77,6 +83,65 @@ that removes `@upstash/ratelimit` and `@upstash/redis`.
 
 ---
 
+## Security posture
+
+Every response carries `Strict-Transport-Security`, `X-Frame-Options`,
+`X-Content-Type-Options`, `Referrer-Policy`, `Permissions-Policy`,
+`Cross-Origin-Opener-Policy` and `Cross-Origin-Resource-Policy`. `X-Powered-By`
+is off. These are asserted by `tests/security-headers.spec.ts` on three routes.
+
+### Content Security Policy — report-only, and how to enforce it
+
+The policy ships as `Content-Security-Policy-Report-Only` with violations POSTed
+to `/api/csp-report`, which logs them. It currently reports **zero violations**
+across every route with both forms exercised, and the site was smoke-tested with
+the policy enforced: no console errors, forms fully interactive.
+
+It is still shipped report-only because one clean pass on one machine is not a
+week of real traffic through real browsers with real extensions. **Watch the
+logs for `[csp]` entries for a week, then set `CSP_ENFORCE=1`.** That switches
+the header name and adds `upgrade-insecure-requests`. Nothing else changes.
+
+**Why the policy is not nonce-based.** The brief asked for a nonce. Next.js
+injects nonces during server-side rendering, so a nonce requires every page to
+be dynamically rendered — all 38 routes here are prerendered, and making them
+per-request would remove CDN caching and put the performance budget out of
+reach. Hash-based `script-src` was measured too: with `experimental.sri`
+enabled, Next emits `integrity` on the six external bundles but leaves ten
+inline scripts per page carrying the RSC payload, which differs per page and per
+build and so cannot be hashed in a static header. The policy is therefore strict
+everywhere it can be and accepts `'unsafe-inline'` for scripts and styles, which
+is precisely the set the framework emits. The reasoning is recorded in full in
+`src/lib/securityHeaders.ts`.
+
+If IPS-PL later decides a nonce is worth dynamic rendering, it is one
+`proxy.ts` (Next 16 renamed `middleware.ts`) plus `await connection()` in each
+page.
+
+**One real finding came out of report-only:** zod probes for `new Function` to
+decide whether it can JIT-compile validators. The probe is caught and degrades
+safely, but browsers still file a `script-src` violation for it, and it was the
+only report the policy ever produced. `z.config({ jitless: true })` in
+`src/lib/schemas/enquiry.ts` disables the probe — and with it the last reason
+`'unsafe-eval'` would ever be needed.
+
+## Enquiry pipeline
+
+- **Rate limiting** applies to every submission, valid or not. Upstash when
+  configured; otherwise a per-process in-memory limiter, which is real
+  protection against a naive script and none against a distributed one. Five
+  submissions per ten minutes per IP. Every response carries `X-RateLimit-Limit`,
+  `-Remaining` and `-Reset`; a 429 carries `Retry-After`.
+- **Turnstile** is off unless both keys are set, and enforced the moment they
+  are — no code change. If Cloudflare is unreachable the submission is allowed
+  through and logged, because a challenge outage must not cost a lead.
+- **Delivery is tested, not assumed.** `tests/enquiry-pipeline.spec.ts` posts a
+  real enquiry against a capture provider and asserts what the email layer was
+  actually handed: recipient, Reply-To, reference, body content and attachment
+  bytes. It also covers the 502 delivery-failure path, the honeypot answering
+  like a success while sending nothing, and validation messages being free of
+  zod's internal wording.
+
 ## Verification before go-live
 
 ```bash
@@ -101,6 +166,9 @@ Then, against the production build:
       `DRAWINGS NOT ATTACHED`.
 - [ ] **Tab the whole site**, menu open and closed. Focus must stay inside the mega
       menu and the mobile drawer; Escape closes both and returns focus to the trigger.
+- [ ] **Watch `[csp]` log entries for a week**, then set `CSP_ENFORCE=1`.
+- [ ] **Trigger a delivery failure deliberately** (revoke the Resend key for one
+      submission) and confirm the alert arrives at `ALERT_WEBHOOK_URL`.
 - [ ] **Lighthouse mobile** on production. Last measured: `/` **91**, `/products`
       **92**, `/quote` **85**. Accessibility, best-practices and SEO are **100**
       across all three.
@@ -139,14 +207,21 @@ event. If you want them separated in reporting, they need their own `kind`.
 
 ## What to watch after launch
 
-Plausible fires: `quote_start`, `quote_step_2`, `quote_submit`, `contact_submit`,
-`datasheet_request`, `tel_click`, `mailto_click`.
+Plausible fires: `quote_start`, `quote_step_1_complete`, `quote_step_2_complete`,
+`quote_submitted`, `contact_submitted`, `datasheet_request`,
+`datasheet_download`, `phone_click`, `email_click`.
+
+`phone_click` and `email_click` were previously declared but never fired from
+anywhere — the two highest-intent actions short of the form, unmeasured. They
+now come from one delegated listener covering all fifteen `tel:`/`mailto:`
+links, including the ones in server components.
 
 The two numbers worth watching in week one:
 
-- **`quote_start` → `quote_step_2`** — a large drop means step 1 is asking too much
-- **`quote_step_2` → `quote_submit`** — a large drop means the process fields or the
-  file upload are the obstacle
+- **`quote_start` → `quote_step_1_complete`** — a large drop means step 1 asks too much
+- **`quote_step_2_complete` → `quote_submitted`** — these two should be nearly
+  equal. A gap means the server is rejecting valid submissions, which is the one
+  funnel loss that is otherwise invisible.
 
 `datasheet_request` volume tells you which documents to prioritise producing.
 

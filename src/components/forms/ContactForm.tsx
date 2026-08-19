@@ -4,6 +4,7 @@ import { useRef, useState } from "react";
 import { ArrowRight } from "lucide-react";
 import { contactSchema, CONTACT_FIELDS, FIELD_LABELS } from "@/lib/schemas/enquiry";
 import { submitEnquiry } from "@/lib/submitEnquiry";
+import { Turnstile, attachTurnstileToken, resetTurnstile } from "@/components/forms/Turnstile";
 import { track } from "@/lib/analytics";
 import { TextField, TextAreaField, fieldId } from "./Field";
 
@@ -58,11 +59,12 @@ export function ContactForm() {
     const body = new FormData();
     body.set("kind", "contact");
     for (const [k, v] of Object.entries(form)) body.set(k, v);
+    attachTurnstileToken(body);
 
     const outcome = await submitEnquiry(body);
 
     if (outcome.ok) {
-      track("contact_submit");
+      track("contact_submitted");
       setReference(outcome.reference);
       setStatus("sent");
       requestAnimationFrame(() => doneRef.current?.focus());
@@ -74,6 +76,7 @@ export function ContactForm() {
       setErrors(outcome.fieldErrors);
       return;
     }
+    resetTurnstile();
     setBlocker(outcome.message);
   }
 
@@ -111,6 +114,8 @@ export function ContactForm() {
         <input id="rfq-website-contact" name="website" type="text" tabIndex={-1} autoComplete="off"
                value={form.website} onChange={(e) => setForm((p) => ({ ...p, website: e.target.value }))} />
       </div>
+
+      <Turnstile />
 
       <div aria-live="polite" role="status">
         {Object.keys(errors).length > 0 && (

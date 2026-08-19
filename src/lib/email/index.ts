@@ -1,4 +1,5 @@
 import { Resend } from "resend";
+import { createCaptureProvider } from "./capture";
 import type { ContactEmailInput, EmailProvider, QuoteEmailInput } from "./types";
 import {
   renderContactAck, renderContactInternal, renderQuoteAck, renderQuoteInternal,
@@ -80,7 +81,14 @@ let cached: EmailProvider | null = null;
 export function getEmailProvider(): EmailProvider {
   if (cached) return cached;
   const key = process.env.RESEND_API_KEY;
-  cached = key ? createResendProvider(key) : createConsoleProvider();
+  if (key) {
+    cached = createResendProvider(key);
+    return cached;
+  }
+  // Capture is checked only after Resend, so setting it on a configured
+  // production deployment cannot silently swallow live enquiries.
+  const captureDir = process.env.EMAIL_CAPTURE_DIR;
+  cached = captureDir ? createCaptureProvider(captureDir) : createConsoleProvider();
   return cached;
 }
 

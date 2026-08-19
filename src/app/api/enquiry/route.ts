@@ -3,7 +3,9 @@ import { enquirySchema } from "@/lib/schemas/enquiry";
 import { checkFiles, MAX_TOTAL_BYTES, PLATFORM_BODY_LIMIT } from "@/lib/files";
 import { createReference } from "@/lib/reference";
 import { getEmailProvider } from "@/lib/email";
-import { clientIp, getRateLimiter } from "@/lib/rateLimit";
+import { clientIp, getRateLimiter, rateLimitHeaders } from "@/lib/rateLimit";
+import { TURNSTILE_FIELD, verifyTurnstile } from "@/lib/turnstile";
+import { alertDeliveryFailure } from "@/lib/alerting";
 
 /** Buffer + Resend attachments need the Node runtime, not Edge. */
 export const runtime = "nodejs";
@@ -14,22 +16,28 @@ interface FieldErrors {
   [field: string]: string;
 }
 
-function json(body: unknown, status: number) {
-  return Response.json(body, { status });
+function json(body: unknown, status: number, headers?: Record<string, string>) {
+  return Response.json(body, { status, headers });
 }
 
 export async function POST(request: Request) {
   // ---- 1. Rate limit ----------------------------------------------------
+  // Applies to every submission, valid or not: an audit found twelve
+  // consecutive malformed posts all answered 400 with no limit headers, so a
+  // script had no signal to back off and no ceiling to hit.
   const ip = clientIp(request.headers);
   const limit = await getRateLimiter().check(ip);
+  const limitHeaders = rateLimitHeaders(limit);
   if (!limit.ok) {
     return json(
       {
         ok: false,
         kind: "rate_limited",
         message: "Too many enquiries from this connection. Please try again shortly.",
+        retryAfterSeconds: limit.retryAfterSeconds,
       },
       429,
+      limitHeaders,
     );
   }
 
@@ -42,6 +50,7 @@ export async function POST(request: Request) {
     return json(
       { ok: false, kind: "payload_too_large", message: "Attachments are too large." },
       413,
+      limitHeaders,
     );
   }
 
@@ -53,6 +62,7 @@ export async function POST(request: Request) {
     return json(
       { ok: false, kind: "bad_request", message: "The enquiry could not be read. Please try again." },
       400,
+      limitHeaders,
     );
   }
 
@@ -73,14 +83,32 @@ export async function POST(request: Request) {
       }
       // Honeypot: respond exactly like a success so a bot learns nothing.
       if (fieldErrors.website) {
-        return json({ ok: true, reference: createReference() }, 200);
+        return json({ ok: true, reference: createReference() }, 200, limitHeaders);
       }
       return json(
         { ok: false, kind: "validation", message: "Some details need checking.", fieldErrors },
         422,
+        limitHeaders,
       );
     }
     throw error;
+  }
+
+  // ---- 4b. Turnstile ----------------------------------------------------
+  // After validation so a malformed post never costs a Cloudflare round trip,
+  // before send so a solved challenge is a precondition for delivery.
+  const challenge = await verifyTurnstile(form.get(TURNSTILE_FIELD) as string | null, ip);
+  if (!challenge.ok) {
+    return json(
+      {
+        ok: false,
+        kind: "challenge_failed",
+        message:
+          "We could not verify that this came from a browser. Reload the page and try again, or email sales@ips-pl.com.",
+      },
+      403,
+      limitHeaders,
+    );
   }
 
   const reference = createReference();
@@ -117,7 +145,14 @@ export async function POST(request: Request) {
       await provider.sendContactEmail({ enquiry, reference });
     }
   } catch (error) {
-    console.error("[enquiry] send failed", { reference, error });
+    // Awaited: on a serverless runtime the process can be frozen the moment
+    // the response is returned, and a floating promise would never send.
+    await alertDeliveryFailure({
+      reference,
+      kind: enquiry.kind,
+      email: enquiry.email,
+      error,
+    });
     return json(
       {
         ok: false,
@@ -126,10 +161,15 @@ export async function POST(request: Request) {
           "We could not send your enquiry just now. Please try again, or email sales@ips-pl.com directly.",
       },
       502,
+      limitHeaders,
     );
   }
 
-  return json({ ok: true, reference, rejectedFiles, maxTotalBytes: MAX_TOTAL_BYTES }, 200);
+  return json(
+    { ok: true, reference, rejectedFiles, maxTotalBytes: MAX_TOTAL_BYTES },
+    200,
+    limitHeaders,
+  );
 }
 
 /** Anything other than POST. */

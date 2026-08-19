@@ -1,4 +1,5 @@
 import type { NextConfig } from "next";
+import { securityHeaders } from "./src/lib/securityHeaders";
 
 const nextConfig: NextConfig = {
   images: {
@@ -8,6 +9,16 @@ const nextConfig: NextConfig = {
     deviceSizes: [390, 640, 768, 1024, 1280, 1536, 1920, 2560],
   },
   poweredByHeader: false,
+
+  // Applied to every response, including static assets and API routes.
+  async headers() {
+    return [
+      {
+        source: "/:path*",
+        headers: securityHeaders(process.env.NODE_ENV === "development"),
+      },
+    ];
+  },
 
   // First-party proxy for Plausible, so ad blockers do not remove the tag.
   async rewrites() {

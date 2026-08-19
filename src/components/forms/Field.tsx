@@ -94,6 +94,10 @@ export function TextField({
   inputRef?: React.Ref<HTMLInputElement>;
 }) {
   const id = fieldId(rest.name);
+  // type alone does not choose a mobile keyboard reliably. `tel` gets the
+  // dial pad, `email` the @-key row; anything else keeps the default.
+  const inputMode =
+    type === "tel" ? "tel" : type === "email" ? "email" : undefined;
   return (
     <FieldShell {...rest} id={id}>
       <input
@@ -101,6 +105,7 @@ export function TextField({
         id={id}
         name={rest.name}
         type={type}
+        inputMode={inputMode}
         value={value}
         required={rest.required}
         placeholder={placeholder}

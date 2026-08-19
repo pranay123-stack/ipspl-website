@@ -14,15 +14,24 @@ declare global {
   }
 }
 
+/**
+ * The enquiry funnel, named as the brief specifies.
+ *
+ * `quote_step_2_complete` and `quote_submitted` look redundant but are not:
+ * the first fires when client validation passes and the request goes out, the
+ * second when the server accepts it. A gap between them is server-side
+ * failure — the one funnel drop that would otherwise be invisible.
+ */
 export type AnalyticsEvent =
   | "quote_start"
-  | "quote_step_2"
-  | "quote_submit"
-  | "contact_submit"
+  | "quote_step_1_complete"
+  | "quote_step_2_complete"
+  | "quote_submitted"
+  | "contact_submitted"
   | "datasheet_request"
   | "datasheet_download"
-  | "tel_click"
-  | "mailto_click";
+  | "phone_click"
+  | "email_click";
 
 export function track(
   event: AnalyticsEvent,

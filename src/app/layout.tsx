@@ -10,6 +10,7 @@ import { JsonLd } from "@/components/seo/JsonLd";
 import { jsonLdGraph, organizationSchema, websiteSchema } from "@/lib/schema";
 import "./globals.css";
 import { PlaceholderOverlay } from "@/components/dev/PlaceholderOverlay";
+import { ContactLinkTracking } from "@/components/analytics/ContactLinkTracking";
 
 const inter = Inter({
   variable: "--font-inter",
@@ -91,6 +92,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       <body className="flex min-h-screen flex-col">
         <JsonLd json={jsonLdGraph(organizationSchema(), websiteSchema())} />
         <Plausible />
+        <ContactLinkTracking />
         <HashScroll />
         <Header />
         <main id="main" className="flex-1">
